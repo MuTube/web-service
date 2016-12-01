@@ -1,0 +1,39 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block pageTitle %}Settings{% endblock %}
+
+{% block content %}
+    <div class="container container-page">
+        <div class="page-header">
+            <h1>Configuration</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Settings</h3>
+                    </div>
+                    <table class="table table-striped panel-body" id="setting_table">
+                        <tbody>
+                            <tr><td data-id="permissions" class="{% if openWindow == false or openWindow == 'permissions' %}active{% endif %}">Permissions</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" id="setting_window_title"></h3>
+                    </div>
+                    <div class="panel-body" id="setting_window">
+                        <div class="text-center">Please enable Javascript</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block additionnalJs %}
+    <script src="/script/pages/settings.js"></script>
+{% endblock %}

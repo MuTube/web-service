@@ -1,0 +1,36 @@
+#########################
+#   ROOTING YML FILE    #
+#########################
+
+# HOME
+home: { url: 'home', command: 'home', method: 'default', loggedIn: 'false' }
+
+# API
+api_home: { url: 'api', command: 'api', method: 'default', loggedIn: 'true' }
+api_run: { url: 'api/run/:ressource/:action/:id', command: 'api', method: 'run', loggedIn: 'false' }
+
+# LOGIN
+login: { url: 'admin-login', command: 'login', method: 'default', loggedIn: 'false' }
+logout: { url: 'logout', command: 'logout', method: 'default', loggedIn: 'true' }
+
+# DASHBOARD
+dashboard: { url: 'dashboard', command: 'dashboard', method: 'default', loggedIn: 'true' }
+
+# SETTINGS
+settings: { url: 'settings', command: 'setting', method: 'default', loggedIn: 'true' }
+settings_get_window: { url: 'settings/getWindow', command: 'setting', method: 'getWindow', loggedIn: 'true' }
+
+# PERMISSIONS
+permissions_update_role: { url: 'permissions/:id/update', command: 'permission', method: 'updateRolePermissions', loggedIn: 'true' }
+permissions_new_role: { url: 'permissions/newRole', command: 'permission', method: 'newRole', loggedIn: 'true' }
+permissions_remove_role: { url: 'permissions/:id/removeRole', command: 'permission', method: 'removeRole', loggedIn: 'true' }
+
+# USER
+user: { url: 'user', command: 'user', method: 'default', loggedIn: 'true' }
+user_create: { url: 'user/create', command: 'user', method: 'create', loggedIn: 'true' }
+user_read: { url: 'user/:id/read', command: 'user', method: 'read', loggedIn: 'true' }
+user_edit: { url: 'user/:id/edit', command: 'user', method: 'edit', loggedIn: 'true' }
+user_remove: { url: 'user/:id/remove', command: 'user', method: 'remove', loggedIn: 'true' }
+user_profile: { url: 'user/profile', command: 'user', method: 'profile', loggedIn: 'true' }
+user_change_password: { url: 'user/:id/changePassword', command: 'user', method: 'changePassword', loggedIn: 'true' }
+user_reset_api_key: { url: 'user/:id/resetAPIKey', command: 'user', method: 'resetAPIKey', loggedIn: 'true' }

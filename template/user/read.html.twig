@@ -1,0 +1,83 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block pageTitle %}User Detail{% endblock %}
+
+{% block content %}
+    <div class="container container-page">
+        <div class="page-header pusher">
+            <div class="pusher__body">
+                <h1>User Detail :</h1>
+            </div>
+            <div class="pusher__item__header">
+                {% if hasAccess({ 0 : 'user_management', 1 : 'user_list' }) %}
+                    <a href="/user" class="btn btn-primary btn-lg">Back to list</a>
+                {% endif %}
+                {% if hasAccess({ 0 : 'user_management', 1 : 'user_create' }) %}
+                    <a href="/user/create" class="btn btn-primary btn-lg">Create new</a>
+                {% endif %}
+                {% if hasAccess({ 0 : 'user_management', 1 : 'user_' ~ user.id ~ '_change_password' }) %}
+                    <a href="/user/{{ user.id }}/changePassword" class="btn btn-primary btn-lg">Reset password</a>
+                {% endif %}
+                {% if hasAccess({ 0 : 'user_management', 1 : 'user_edit', 2 : 'user_' ~ user.id ~ '_edit' }) %}
+                    <a href="/user/{{ user.id }}/edit" class="btn btn-primary btn-lg">Edit</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row box-sm">
+            <div class="col-sm-4">
+                <p><strong>Image :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <img src="/files/user_image/{{ user.image_name | default('default.png') }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>ID :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ user.id }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Username :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ user.usrname }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Firstname :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ user.firstname | default('-') }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Lastname :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ user.lastname | default('-') }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Email :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ user.email | default('-') }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Role :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ user.role_name | default('no role')}}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+/*                     */
+/*  PUSHER STYLESHEET  */
+/*                     */
+
+.pusher {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pusher__body {
+  max-width: 100%;
+  flex: 1 0 auto;
+}
+
+.pusher__item__header {
+  padding:15px 0;
+
+  a {
+    @extend .mrgbs
+  }
+}

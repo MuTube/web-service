@@ -1,0 +1,22 @@
+{
+  "name": "mutube-web-service",
+  "version": "1.0.0",
+  "description": "Mutube's web service",
+  "main": "index.php",
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "engines": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MuTube/web-service.git"
+  },
+  "keywords": [
+  ],
+  "author": "Luca Sardonini",
+  "contributors": [
+  ],
+  "license": "MIT"
+}

@@ -1,0 +1,38 @@
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">{{ siteInfo.name }}</a>
+            </div>
+            {% if isValidUser %}
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li {% if activeMenuLink == 'dashboard' or activeMenuLink == '' %}class="active"{% endif %}><a href="/dashboard">Dashboard</a></li>
+                        {% if hasAccess({ 0: 'user_management', 1: 'user_list' }) %}
+                            <li {% if activeMenuLink == 'user' %}class="active"{% endif %}><a href="/user">Users</a></li>
+                        {% endif %}
+                        <li {% if activeMenuLink == 'api' or activeMenuLink == '' %}class="active"{% endif %}><a href="/api">API</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">{{ userData.username }}<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                {% if hasAccess({ 0: 'settings_management', 1: 'settings_list' }) %}
+                                    <li><a href="/settings">Settings</a></li>
+                                    <li role="separator" class="divider"></li>
+                                {% endif %}
+                                <li><a href="/user/profile">My profile</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+</header>

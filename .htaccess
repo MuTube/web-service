@@ -1,0 +1,8 @@
+## LINK ALL TO INDEX.PHP
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . index.php [L]
+
+## PHP INI OVERRIDING
+php_value upload_max_filesize 10M

@@ -1,0 +1,47 @@
+/*                   */
+/*  TABLE STYLESHEET */
+/*                   */
+
+.table {
+  font-size:18px;
+}
+
+.table#setting_table {
+  tbody {
+    tr:hover {
+      td {
+        background-color: #CCCCCC;
+        cursor: pointer;
+      }
+    }
+    td.active {
+      border:3px solid #B1B1B1;
+    }
+  }
+}
+
+.table#user_table,
+.table#contact_table,
+.table#contact_dashboard_table,
+.table#music_table {
+  tbody {
+    tr:hover {
+      td.linked {
+        background-color: #CCCCCC;
+        cursor: pointer;
+      }
+    }
+    td.actionRow .glyphicon {
+      font-size:18px;
+
+      input{
+        width:10px;
+      }
+    }
+  }
+}
+
+.table.block-table {
+  max-height: 700px;
+  overflow: scroll;
+}

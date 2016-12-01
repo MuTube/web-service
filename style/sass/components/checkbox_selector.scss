@@ -1,0 +1,15 @@
+/*                               */
+/*  CHECKBOX SELECTOR STYLESHEET */
+/*                               */
+
+.checkbox-selector {
+  content:url('/files/components/checkboxe_empty.png');
+  height:17px;
+  width:19px;
+}
+.checkbox-selector.checked {
+  content:url('/files/components/checkboxe_checked.png');
+}
+.checkbox-container {
+  padding: 10px 8px;
+}

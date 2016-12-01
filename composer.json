@@ -1,0 +1,17 @@
+{
+    "name": "luca/mutube-web-service",
+    "description": "base-php",
+    "require": {
+        "twig/twig": "^1.24",
+        "symfony/console": "^3.1",
+        "symfony/process": "^3.1",
+        "symfony/yaml": "^3.1"
+    },
+    "authors": [
+        {
+            "name": "Luca Sardonini",
+            "email": "luca.sardonini@liip.ch"
+        }
+    ],
+    "minimum-stability": "dev"
+}

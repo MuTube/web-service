@@ -1,0 +1,44 @@
+{% extends 'setting/settingWindows/baseSettingWindow.html.twig' %}
+
+{% block settingContent %}
+    <div class="alert alert-info">
+        If you need to add a permission, contact the webmaster
+    </div>
+    {% for role in roles %}
+        <form id="role_{{ role.id }}_form" action="/permissions/{{ role.id }}/update" method="post" class="mrgb">
+            <label for="permissions_{{ role.id }}">{{ role.name | capitalize }} :</label>
+            {{ permissionSelector({
+                selected : role.permission_ids,
+                multiple : true,
+                htmlAttribs : {
+                    id : 'permissions_'~role.id,
+                    name : 'permission_ids'
+                }
+            }) | raw }}
+            <div class="submit">
+                <input type="submit" class="btn btn-primary" value="Save">
+                <a href="/permissions/{{ role.id }}/removeRole" class="role-remove mrghs" data-id="{{ role.id }}"><span class="glyphicon glyphicon-trash"></span></a>
+            </div>
+        </form>
+    {% endfor %}
+    <h3>New role :</h3>
+    <form id="role_new_form" action="/permissions/newRole" method="post" class="box-sm">
+        <div class="form-group">
+            <label for="role_name">Name :</label>
+            <input type="text" id="role_name" name="name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="permissions">Permissions :</label>
+            {{ permissionSelector({
+                multiple : true,
+                htmlAttribs : {
+                    id : 'permissions',
+                    name : 'permission_ids'
+                }
+            }) | raw }}
+            <div class="submit">
+                <input type="submit" class="btn btn-primary" value="Create">
+            </div>
+        </div>
+    </form>
+{% endblock %}

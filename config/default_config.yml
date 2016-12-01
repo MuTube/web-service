@@ -1,0 +1,13 @@
+siteInformations:
+  site_name: mutube
+  site_author: Luca Sardonini
+  site_year: 2016
+
+database:
+  db_host: localhost
+  db_user: root
+  db_pswd: root
+  db_name: mutube
+
+OpenWeatherMap:
+  api_key: please enter your own api key to use this service

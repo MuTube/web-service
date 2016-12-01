@@ -1,0 +1,8 @@
+<select id="{{ htmlAttribs.id }}" class="form-control select2" name="{{ htmlAttribs.name }}{% if multiple %}[]" multiple="multiple"{% else %}"{% endif %}>
+    {% if emptyValue %}
+        <option value="0" {% if selected == false %}selected{% endif %}>- Select... -</option>
+    {% endif %}
+    {% for id, value in selectOptions %}
+        <option value="{{ id }}" {% if id in selected %}selected{% endif %}>{{ value }}</option>
+    {% endfor %}
+</select>

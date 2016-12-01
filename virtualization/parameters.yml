@@ -1,9 +1,9 @@
 ---
 # Name of your project, will also be the vagrant box name
-project_name: "example"
+project_name: "mutube-web-service"
 
 # Main hostname through which the vagrant box will be accessible
-hostname: "example.lo"
+hostname: "mutube.lo"
 # Alternative hostnames through which you want to access the vagrant box
 hostnames: []
 
@@ -15,15 +15,15 @@ forwarded_ports: {
     "3000": "3000",  # BrowserSync default port
 }
 
-# By default Vagrant managed different IPs for all boxes. But you can force it
-# here if you want. WARNING, this parameter will not guarantee that your box
+# The box IP, this must be unique across all your virtualized projects to
+# avoid collisions. WARNING, this parameter will not guarantee that your box
 # will be accessible at this IP depending on your network configuration or
 # provider choice.
-# box_ip: "10.10.10.10"
+box_ip: "10.10.10.10"
 
 # Name of the database to create for your project if you include the
 # MySQL or PostgreSQL role
-database_name: "example"
+database_name: "mutube"
 
 # Root directory of your project for the webserver and other purposes
 root_directory: "/vagrant/"

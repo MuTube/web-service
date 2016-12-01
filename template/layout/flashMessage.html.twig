@@ -1,0 +1,15 @@
+<div id="messages">
+    {% for type, messages in flashMessage %}
+        {% if type == 'error' %}
+            {% set alertType = 'danger' %}
+        {% elseif type == 'success' %}
+            {% set alertType = 'success' %}
+        {% endif %}
+        {% for message in messages %}
+            <div class="alert alert-{{ alertType }}">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span class="alert-message">{{ message }}</span>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>

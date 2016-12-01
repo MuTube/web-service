@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block pageTitle %}{% endblock %}</title>
+        {% include 'layout/head.html.twig' %}
+    </head>
+    <body>
+        {% include 'layout/header.html.twig' %}
+        {% include 'layout/flashMessage.html.twig' %}
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+        {% include 'layout/footer.html.twig' %}
+        {% include 'layout/foot.html.twig' %}
+        <!-- page specific scripts -->
+        {% block additionnalJs %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,15 @@
+/*                    */
+/*  FOOTER STYLESHEET */
+/*                    */
+footer {
+  .navbar {
+    a {
+      cursor:pointer;
+
+      &:hover {
+        font-weight:bold;
+        text-decoration:none;
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block pageTitle %}Create a user{% endblock %}
+
+{% block content %}
+    <div class="container container-form">
+        <div class="page-header pusher">
+            <div class="pusher__body">
+                <h1>Create a user :</h1>
+            </div>
+            <div class="pusher__item__header">
+                <a href="/user" class="btn btn-primary btn-lg">Back to List</a>
+            </div>
+        </div>
+        {% include 'user/_form.html.twig' %}
+    </div>
+{% endblock %}

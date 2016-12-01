@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+require 'app/application.php';
+
+set_time_limit(0);
+
+$app = new Application();
+$app->run();
+
+?>

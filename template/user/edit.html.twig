@@ -1,0 +1,22 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block pageTitle %}Edit a user{% endblock %}
+
+{% block content %}
+    <div class="container container-form">
+        <div class="page-header pusher">
+            <div class="pusher__body">
+                <h1>Edit a user :</h1>
+            </div>
+            <div class="pusher__item__header">
+                {% if hasAccess({ 0 : 'user_management', 1 : 'user_list'}) %}
+                    <a href="/user" class="btn btn-primary btn-lg">Back to List</a>
+                {% endif %}
+                {% if hasAccess({ 0 : 'user_management', 1 : 'user_create' }) %}
+                    <a href="/user/create" class="btn btn-primary btn-lg">Create new</a>
+                {% endif %}
+            </div>
+        </div>
+        {% include 'user/_form.html.twig' %}
+    </div>
+{% endblock %}

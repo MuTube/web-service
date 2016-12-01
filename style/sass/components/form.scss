@@ -1,0 +1,16 @@
+/*                  */
+/*  FORM STYLESHEET */
+/*                  */
+
+form {
+  input[type='text'], input[type="password"], .select2-selection {
+    height:30px;
+    border: 1px solid #aaa;
+  }
+  .submit {
+    margin-top:20px;
+  }
+  label {
+    font-size:18px;
+  }
+}

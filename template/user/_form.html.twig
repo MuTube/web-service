@@ -1,0 +1,50 @@
+<form id="user_form" action="{{ currentUri }}" method="post" role="form" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="userImage">Image :</label>
+        <input type="file" id="userImage" name="image" class="form-control">
+        <div class="image-container">
+            <img src="/files/user_image/{{ userImageName | default('default.png') }}" id="userImage" class="center-block" width="55%">
+        </div>
+    </div>
+    {% if userId %}
+        <div class="form-group">
+            <label for="userId">ID :</label>
+            <input type="text" id="userId" class="form-control" value="{{ userId }}" disabled>
+        </div>
+    {% endif %}
+    <div class="form-group">
+        <label for="userUsername">Username :</label>
+        <input type="text" id="userUsername" name="usrname" class="form-control" value="{{ formValues.usrname | default('') }}">
+    </div>
+    <div class="form-group">
+        <label for="userFirstname">Firstname :</label>
+        <input type="text" id="userFirstname" name="firstname" class="form-control" value="{{ formValues.firstname | default('') }}">
+    </div>
+    <div class="form-group">
+        <label for="userLastname">Lastname :</label>
+        <input type="text" id="userLastname" name="lastname" class="form-control" value="{{ formValues.lastname | default('') }}">
+    </div>
+    <div class="form-group">
+        <label for="userEmail">Email adress :</label>
+        <input type="email" id="userEmail" name="email" class="form-control" value="{{ formValues.email | default('') }}">
+    </div>
+    {% if userId == false %}
+        <div class="form-group">
+            <label for="userPassword">Password :</label>
+            <input type="password" id="userPassword" name="pswd" class="form-control">
+        </div>
+    {% endif %}
+    <div class="form-group">
+        <label for="userRole">Role :</label>
+        {{ roleSelector({
+            selected : formValues.role_id,
+            htmlAttribs : {
+                id : 'userRole',
+                name : 'role_id'
+            }
+        }) | raw }}
+    </div>
+    <div class="form-group submit">
+        <input type="submit" id="userSubmit" class="btn btn-primary btn-lg pull-right" value="Save">
+    </div>
+</form>
