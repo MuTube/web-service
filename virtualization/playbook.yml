@@ -50,6 +50,8 @@
       file: path={{ item }} state=directory mode=o+rwx
       with_items :
         - /vagrant/files/user_image
+        - /vagrant/files/track_thumbnails
+        - /vagrant/files/track_files
 
     - name: install composer depedencies
       shell: cd /vagrant/; composer install

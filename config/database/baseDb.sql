@@ -35,6 +35,23 @@ CREATE TABLE `usr_role` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `track` (
+  `id` int(11) NOT NULL,
+  `track_history_id` int(11) NOT NULL,
+  `mp3_filepath` varchar(200) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `track_history` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `thumbnail_filepath` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `duration` int(11) COLLATE utf8_unicode_ci NOT NULL,
+  `youtube_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `youtube_channel` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `youtube_views` int(11) COLLATE utf8_unicode_ci NOT NULL,
+  `artist` int(11) COLLATE utf8_unicode_ci,
+  `album` int(11) COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 
