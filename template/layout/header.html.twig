@@ -17,6 +17,9 @@
                         {% if hasAccess({ 0: 'user_management', 1: 'user_list' }) %}
                             <li {% if activeMenuLink == 'user' %}class="active"{% endif %}><a href="/user">Users</a></li>
                         {% endif %}
+                        {% if hasAccess({ 0: 'track_management' }) %}
+                            <li {% if activeMenuLink == 'track' %}class="active"{% endif %}><a href="/track">Tracks</a></li>
+                        {% endif %}
                         <li {% if activeMenuLink == 'api' or activeMenuLink == '' %}class="active"{% endif %}><a href="/api">API</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

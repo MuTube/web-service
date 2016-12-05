@@ -7,7 +7,8 @@ INSERT INTO `permission_data` (`id`, `name`, `description`) VALUES
   (6, 'user_edit', 'Allow to edit the users'),
   (7, 'settings_list', 'Allow to list the settings'),
   (8, 'user_remove', 'Allow to remove the users'),
-  (9, 'user_login', 'Allow to login into the UI')
+  (9, 'user_login', 'Allow to login into the UI'),
+  (10, 'track_management', 'Allow to manage the tracks')
 ;
 
 
@@ -18,7 +19,8 @@ INSERT INTO `role_2_permission` (`id`, `role_id`, `permission_id`) VALUES
   (4, 2, 5),
   (5, 1, 9),
   (6, 2, 9),
-  (7, 3, 9)
+  (7, 3, 9),
+  (8, 1, 10)
 ;
 
 

@@ -1,0 +1,93 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block pageTitle %}Track Detail{% endblock %}
+
+{% block content %}
+    <div class="container container-page">
+        <div class="page-header pusher">
+            <div class="pusher__body">
+                <h1>Track Detail :</h1>
+            </div>
+            <div class="pusher__item__header">
+                {% if hasAccess({ 0 : 'track_management' }) %}
+                    <a href="/track" class="btn btn-primary btn-lg">Back to list</a>
+                {% endif %}
+                {% if hasAccess({ 0 : 'track_management', }) %}
+                    <a href="/track/{{ track.id }}/edit" class="btn btn-primary btn-lg">Edit</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Thumbnail :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <img src="{{ track.thumbail_filepath | default('/file/track-thumbnails/default.png') }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>ID :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ track.id }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Name :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ track.name }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Artist :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ track.artist | default('-') }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Album  :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ track.album | default('-') }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Channel :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ track.youtube_channel }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Youtube ID :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ track.youtube_id }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Views :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ track.youtube_views }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p><strong>Duration :</strong></p>
+            </div>
+            <div class="col-sm-8">
+                <p>{{ track.duration }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
