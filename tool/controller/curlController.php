@@ -2,20 +2,17 @@
 
 class CurlController {
     public static function runGetRequest($url) {
-        $curl = curl_init($url);
-        curl_setopt_array($curl, [CURLOPT_RETURNTRANSFER => true]);
+        $ch = curl_init();
 
-        return curl_exec($curl);
-    }
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPGET, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, false);
+        curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 2);
 
-    public static function runGetRequestWithAuth($url, $username, $password) {
-        $curl = curl_init($url);
+        $result = curl_exec($ch);
+        curl_close($ch);
 
-        curl_setopt_array($curl, [
-            CURLOPT_USERPWD => "$username:$password",
-            CURLOPT_RETURNTRANSFER => true
-        ]);
-
-        return curl_exec($curl);
+        return $result;
     }
 }
