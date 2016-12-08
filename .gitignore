@@ -1,6 +1,7 @@
 #unused files
 .idea
 .vagrant
+.DS_Store
 style/.sass-cache/*
 vendor/
 

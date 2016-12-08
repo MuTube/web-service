@@ -43,9 +43,9 @@ CREATE TABLE `track` (
 
 CREATE TABLE `track_history` (
   `id` int(11) NOT NULL,
-  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `thumbnail_filepath` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `duration` int(11) NOT NULL,
+  `duration` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `youtube_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `youtube_channel` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `youtube_views` int(11) NOT NULL,

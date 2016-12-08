@@ -11,6 +11,7 @@
             <div class="pusher__item__header">
                 {% if hasAccess({ 0 : 'track_management' }) %}
                     <a href="#" class="btn btn-primary btn-lg remove_selected">Remove selected</a>
+                    <a href="/track/add" class="btn btn-primary btn-lg">Add a track</a>
                 {% endif %}
             </div>
         </div>
@@ -19,7 +20,7 @@
                 <thead>
                 <tr>
                     <th>Thumbnail</th>
-                    <th>Name</th>
+                    <th>Title</th>
                     <th>Artist</th>
                     <th>Album</th>
                     <th>Channel</th>
@@ -31,25 +32,25 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for track in tracks %}
-                    <tr data-id="{{ track.id }}">
-                        <td class="linked" width="1"><img src="{{ track.thumbnail_filepath }}" height="70px" width="110px"></td>
-                        <td class="linked"><span class="vcenter">{{ track.name }}</span></td>
-                        <td class="linked">{{ track.artist | default('-') }}</td>
-                        <td class="linked">{{ track.album | default('-') }}</td>
-                        <td class="linked">{{ track.youtube_channel }}</td>
-                        <td class="linked">{{ track.youtube_views }}</td>
-                        <td class="linked">{{ track.duration }}</td>
-                        <td class="actionRow" width="1">
-                            <a href="#" class="btn btn-default btn-sm remove track_remove glyphicon glyphicon-trash" data-id="track_{{ track.id }}"></a>
-                            <a href="#" class="btn btn-default btn-sm select track_select checkbox-container" data-id="track_{{ track.id }}"><div class="checkbox-selector"></div></a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="7" class="text-center"><small>No track found</small></td>
-                    </tr>
-                {% endfor %}
+                    {% for track in tracks %}
+                        <tr data-id="{{ track.id }}">
+                            <td class="linked" width="1"><img src="{{ "/" ~ track.thumbnail_filepath }}" width="130px"></td>
+                            <td class="linked"><span class="vcenter">{{ track.title }}</span></td>
+                            <td class="linked">{{ track.artist | default('-') }}</td>
+                            <td class="linked">{{ track.album | default('-') }}</td>
+                            <td class="linked">{{ track.youtube_channel }}</td>
+                            <td class="linked">{{ track.youtube_views | number_format(0, '.', "'") }}</td>
+                            <td class="linked">{{ track.duration }}</td>
+                            <td class="actionRow" width="1">
+                                <a href="#" class="btn btn-default btn-sm remove track_remove glyphicon glyphicon-trash" data-id="track_{{ track.id }}"></a>
+                                <a href="#" class="btn btn-default btn-sm select track_select checkbox-container" data-id="track_{{ track.id }}"><div class="checkbox-selector"></div></a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center"><small>No track found</small></td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

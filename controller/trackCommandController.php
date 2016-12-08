@@ -26,14 +26,16 @@ class TrackCommandController extends CommonCommandController {
         try {
             DbController::getTable('trackHistory')->removeWithIds($ids);
             DbController::getTable('track')->removeWithTrackHistoryId($ids);
-            // HANDLE FILE DELETION
+
+            // HANDLE FILE AND THUMBNAIL DELETION
+
             MessageController::addFlashMessage('success', "Tracks ".explode(', ', $ids)." successfully removed");
         }
         catch(Exception $e) {
             ExceptionHandler::renderSoftException($e);
         }
 
-        $this->redirect('user');
+        $this->redirect('track');
     }
 
     public function edit() {
@@ -63,12 +65,68 @@ class TrackCommandController extends CommonCommandController {
 
         $this->setTemplate('track/edit.html.twig');
     }
+
+    public function add() {
+        $this->denyAccessWithoutOneOfPermissions(['track_management']);
+
+        if(isset($this->params['get']['searchTerm'])) {
+            $searchTerm = $this->params['get']['searchTerm'];
+
+            $this->data['searchTerm'] = $searchTerm;
+            $this->data['searchResults'] = YoutubeClient::getVideoSearchResultsForSearchterm($searchTerm);
+        }
+
+        $this->setTemplate('track/add.html.twig');
+    }
+
+    public function register() {
+        $this->denyAccessWithoutOneOfPermissions(['track_management']);
+
+
+        if(array_key_exists('yid', $this->params['get'])) {
+            try {
+                $this->data['videoData'] = YoutubeClient::getVideoDetailsForVideoId($this->params['get']['yid']);
+            }
+            catch(Exception $e) {
+                ExceptionHandler::renderSoftException($e);
+                $this->redirect('track/add');
+            }
+        }
+        elseif(array_key_exists('id', $this->params['post'])) {
+            $form = new TrackFormHelper($this->params['post']);
+            $trackTable = DbController::getTable('trackHistory');
+
+            try {
+                $trackData = YoutubeClient::getVideoDetailsForVideoId($this->params['post']['id']);
+                $newThumbnailFilePath = "files/track_thumbnails/".$trackData['id']."_thumbnail.png";
+                $newTrack = array_merge($form->getValues(), [
+                    'youtube_channel' => $trackData['youtube_channel'],
+                    'youtube_views' => $trackData['youtube_views'],
+                    'duration' => $trackData['duration'],
+                    'youtube_id' => $trackData['id'],
+                    'thumbnail_filepath' => $newThumbnailFilePath
+                ]);
+
+                CurlController::downloadFileToDestination($trackData['thumbnailPath'], $newThumbnailFilePath);
+                $trackTable->create($newTrack);
+
+                MessageController::addFlashMessage("success", "Track successfully saved");
+                $this->redirect('track');
+            }
+            catch(Exception $e) {
+                ExceptionHandler::renderSoftException($e);
+                $this->redirect('track/register/yid='.$this->params['post']['id']);
+            }
+        }
+
+        $this->setTemplate('track/register.html.twig');
+    }
 }
 
 //formHelper
 
 class TrackFormHelper extends FormHelper {
     protected function defineFields() {
-        $this->fields = ['name', 'artist', 'album'];
+        $this->fields = ['title', 'artist', 'album', "year"];
     }
 }

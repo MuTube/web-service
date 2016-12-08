@@ -1,0 +1,58 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block pageTitle %}Track Registration{% endblock %}
+
+{% block content %}
+    <div class="container container-form">
+        <div class="page-header pusher">
+            <div class="pusher__body">
+                <h1>Register Youtube Track :</h1>
+            </div>
+            <div class="pusher__item__header">
+                {% if hasAccess({ 0 : 'track_management' }) %}
+                    <a href="/track" class="btn btn-primary btn-lg">Back to list</a>
+                    <a href="/track/add" class="btn btn-primary btn-lg">Back to search</a>
+                {% endif %}
+            </div>
+        </div>
+        <form id="track_registration_form" method="post" action="/track/register" role="form" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="image-container">
+                    <img src="{{ videoData.thumbnailPath }}" id="userImage" class="center-block">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="title">Title :</label>
+                <input type="text" id="title" name="title" class="form-control" value="{{ videoData.title }}">
+            </div>
+            <div class="form-group">
+                <label for="artist">Artist :</label>
+                <input type="text" id="artist" name="artist" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="album">Album :</label>
+                <input type="text" id="album" name="album" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="year">Year :</label>
+                <input type="text" id="year" name="year" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration :</label>
+                <input type="text" id="duration" name="duration" readonly="readonly" class="form-control" value="{{ videoData.duration }}">
+            </div>
+            <div class="form-group">
+                <label for="channel">Channel :</label>
+                <input type="text" id="channel" name="youtube_channel" readonly="readonly" class="form-control" value="{{ videoData.youtube_channel }}">
+            </div>
+            <div class="form-group">
+                <label for="views">Views :</label>
+                <input type="text" id="views" name="youtube_views" readonly="readonly" class="form-control" value="{{ videoData.youtube_views | number_format(0, '.', "'") }}">
+            </div>
+            <div class="form-group submit">
+                <input type="hidden" name="id" value="{{ videoData.id }}">
+                <input type="submit" id="userSubmit" class="btn btn-primary btn-lg pull-right" value="Save">
+            </div>
+        </form>
+    </div>
+{% endblock %}

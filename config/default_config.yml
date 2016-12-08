@@ -11,3 +11,6 @@ database:
 
 OpenWeatherMap:
   api_key: please enter your own api key to use this service
+
+Youtube:
+  api_key: please enter your own api key to use this service
