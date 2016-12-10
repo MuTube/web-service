@@ -2,15 +2,15 @@
 
 class Youtubeinmp3Client {
     public static function getMP3DownloadURLWithYoutubeID($youtubeID) {
-        $url = "http://www.youtubeinmp3.com/fetch";
+        $url = "http://www.youtubeinmp3.com/fetch/";
 
         $json = CurlController::runGetRequest($url, [
             'format' => 'JSON',
             'video' => 'http://www.youtube.com/watch?v=' . $youtubeID
         ]);
 
-        $result = json_decode($json);
+        $result = json_decode($json, true);
 
-        return $result;
+        return $result['link'];
     }
 }
