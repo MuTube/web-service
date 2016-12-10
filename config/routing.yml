@@ -34,3 +34,12 @@ user_remove: { url: 'user/:id/remove', command: 'user', method: 'remove', logged
 user_profile: { url: 'user/profile', command: 'user', method: 'profile', loggedIn: 'true' }
 user_change_password: { url: 'user/:id/changePassword', command: 'user', method: 'changePassword', loggedIn: 'true' }
 user_reset_api_key: { url: 'user/:id/resetAPIKey', command: 'user', method: 'resetAPIKey', loggedIn: 'true' }
+
+# TRACK
+track: { url: 'track', command: 'track', method: 'default', loggedIn: 'true' }
+track_read: { url: 'track/:id/read', command: 'track', method: 'read', loggedIn: 'true' }
+track_remove: { url: 'track/:id/remove', command: 'track', method: 'remove', loggedIn: 'true' }
+track_edit: { url: 'track/:id/edit', command: 'track', method: 'edit', loggedIn: 'true' }
+track_add: { url: 'track/add', command: 'track', method: 'add', loggedIn: 'true' }
+track_add_autocomplete: { url: 'track/add/autocomplete', command: 'track', method: 'addAutocomplete', loggedIn: 'true' }
+track_register: { url: 'track/register', command: 'track', method: 'register', loggedIn: 'true' }

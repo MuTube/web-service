@@ -1,20 +1,20 @@
 #unused files
 .idea
 .vagrant
+.DS_Store
 style/.sass-cache/*
 vendor/
 
 #files
+
 config/database/archive/*
 !config/database/archive/0_default.sql
-files/contact_image/*
-!files/contact_image/default.png
+
 files/user_image/*
 !files/user_image/default.png
-files/music/*
-files/zip/*
-files/generatedImage/*
-files/contact_vcard/*
+
+files/track_thumbnails/*
+files/track_files/*
 
 #ignore config files
 config/config.yml

@@ -54,17 +54,28 @@ class DataHelper {
         foreach($params as $paramType => $filtredParams) {
             foreach($filtredParams as $label => $param) {
                 if(!is_array($param)) {
-                    $param = filter_var($param, FILTER_SANITIZE_STRING);
-                    $params[$paramType][$label] = addslashes($param);
+                    $param = self::sanitizeParam($param, $paramType);
+                    $params[$paramType][$label] = $param;
                 } else {
                     foreach($param as $subParamLabel => $subParam) {
-                        $subParam = filter_var($subParam, FILTER_SANITIZE_STRING);
-                        $params[$paramType][$label][$subParamLabel] = addslashes($subParam);
+                        $subParam = self::sanitizeParam($subParam, $paramType);
+                        $params[$paramType][$label][$subParamLabel] = $subParam;
                     }
                 }
             }
         }
 
         return $params;
+    }
+
+    protected static function sanitizeParam($param, $paramType) {
+        $param = filter_var($param, FILTER_SANITIZE_STRING);
+        $param = addslashes($param);
+
+        if($paramType == 'get') {
+            $param = urldecode($param);
+        }
+
+        return $param;
     }
 }

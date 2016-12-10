@@ -22,7 +22,7 @@ class ApiCommandController extends CommonCommandController {
         try {
             $apiKey = isset($this->params["get"]["key"]) ? $this->params["get"]["key"] : "";
             SessionController::checkAPIAuthentification($apiKey);
-            $method = $this->resource . ucfirst($this->action);
+            $method = $this->action . ucfirst($this->resource);
 
             if (!method_exists($this, $method)) {
                 throw new Exception("Method '$method' doesn't exist...");
@@ -48,5 +48,5 @@ class ApiCommandController extends CommonCommandController {
         }
     }
 
-    // Implement API Methods
+    // API Methods
 }

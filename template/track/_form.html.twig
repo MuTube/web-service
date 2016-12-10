@@ -1,0 +1,43 @@
+<form id="track_registration_form" method="post" action="/track/{% if mode == 'register' %}register{% else %}{{ track.id }}/edit{% endif %}" role="form" enctype="multipart/form-data">
+    <div class="form-group">
+        <div class="image-container">
+            {% if mode == 'register' %}
+                <img src="{{ track.thumbnail_path }}" class="center-block">
+            {% else %}
+                <img src="/{{ track.thumbnail_filepath }}" class="center-block">
+            {% endif %}
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="title">Title :</label>
+        <input type="text" id="title" name="title" class="form-control" value="{% if formValues.title %}{{ track.title }}{% else %}{{ track.title }}{% endif %}">
+    </div>
+    <div class="form-group">
+        <label for="artist">Artist :</label>
+        <input type="text" id="artist" name="artist" class="form-control" value="{{ formValues.artist }}">
+    </div>
+    <div class="form-group">
+        <label for="album">Album :</label>
+        <input type="text" id="album" name="album" class="form-control" value="{{ formValues.album }}">
+    </div>
+    <div class="form-group">
+        <label for="year">Year :</label>
+        <input type="text" id="year" name="year" class="form-control" value="{{ formValues.year }}">
+    </div>
+    <div class="form-group">
+        <label for="duration">Duration :</label>
+        <input type="text" id="duration" name="duration" readonly="readonly" class="form-control" value="{{ track.duration }}">
+    </div>
+    <div class="form-group">
+        <label for="channel">Channel :</label>
+        <input type="text" id="channel" name="youtube_channel" readonly="readonly" class="form-control" value="{{ track.youtube_channel }}">
+    </div>
+    <div class="form-group">
+        <label for="views">Views :</label>
+        <input type="text" id="views" name="youtube_views" readonly="readonly" class="form-control" value="{{ track.youtube_views | number_format(0, '.', "'") }}">
+    </div>
+    <div class="form-group submit">
+        <input type="hidden" name="id" value="{{ track.id }}">
+        <input type="submit" id="userSubmit" class="btn btn-primary btn-lg pull-right" value="Save">
+    </div>
+</form>

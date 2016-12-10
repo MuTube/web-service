@@ -1,0 +1,61 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block pageTitle %}Add a Track{% endblock %}
+
+{% block additionalCss %}
+    <link rel="stylesheet" href="/lib/awesomplete_3.11.26/awesomplete.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="container container-page">
+        <div class="page-header pusher">
+            <div class="pusher__body">
+                <h1>Add a Track :</h1>
+            </div>
+            <div class="pusher__item__header">
+                {% if hasAccess({ 0 : 'track_management' }) %}
+                    <a href="/track" class="btn btn-primary btn-lg">Back to list</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="container container-form box-lg">
+            <form id="youtube_search_form" method="get">
+                <div class="form-group">
+                    <label for="search_term">Youtube Search :</label>
+                    <input type="text" value="{{ searchTerm }}" name="searchTerm" id="youtube_search" class="form-control" placeholder="Search on youtube...">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Search" class="btn btn-primary pull-right">
+                </div>
+            </form>
+        </div>
+        {% if searchResults %}
+            <div class="table-responsive">
+                <table class="table table-striped" id="youtube_search_table">
+                    {% for searchResult in searchResults %}
+                        <tr>
+                            <td class="media">
+                                <img src="{{ searchResult.thumbnailPath }}" class="pull-left" height="110px">
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{ searchResult.title }}</h4>
+                                    <small class="text-muted">{{ searchResult.publicationDate }}</small><br>
+                                    <small class="text-muted">{{ searchResult.channel }}</small>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="/track/register?yid={{ searchResult.id }}" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-download-alt"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block additionalJs %}
+    <script src="/lib/awesomplete_3.11.26/awesomplete.min.js"></script>
+    <script src="/script/pages/trackAdd.js"></script>
+{% endblock %}

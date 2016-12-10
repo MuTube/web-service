@@ -10,8 +10,8 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 class FilesClearDirectoryCommand extends CommonCommand {
     protected function configure() {
         $this->setName('files:clearDirectory');
-        $this->setDescription('Clear the files directory (images, zips, ...)');
-        $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Clear really all the directories including user images, contact images and musics');
+        $this->setDescription('Clear the files directory (tracks)');
+        $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Clear really all the directories including the user images and the track thumbnails');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
@@ -22,9 +22,9 @@ class FilesClearDirectoryCommand extends CommonCommand {
         $output->writeln('Running...');
         $output->writeln('');
 
-        $filesToClear = ['generatedImage', 'zip', 'contact_vcard'];
+        $filesToClear = ['track_files'];
 
-        if($input->getOption('force')) $filesToClear = array_merge($filesToClear, ['user_image']);
+        if($input->getOption('force')) $filesToClear = array_merge($filesToClear, ['user_image', "track_thumbnails"]);
 
         foreach($filesToClear as $fileToClear) {
             $command = $input->getOption('in-box')

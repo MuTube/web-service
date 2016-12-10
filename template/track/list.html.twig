@@ -1,0 +1,62 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block pageTitle %}Track List{% endblock %}
+
+{% block content %}
+    <div class="container container-page">
+        <div class="page-header pusher">
+            <div class="pusher__body">
+                <h1>Tracks :</h1>
+            </div>
+            <div class="pusher__item__header">
+                {% if hasAccess({ 0 : 'track_management' }) %}
+                    <a href="#" class="btn btn-primary btn-lg remove_selected">Remove selected</a>
+                    <a href="/track/add" class="btn btn-primary btn-lg">Add a track</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped" id="track_table">
+                <thead>
+                <tr>
+                    <th>Thumbnail</th>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Album</th>
+                    <th>Channel</th>
+                    <th>Views</th>
+                    <th>Duration</th>
+                    {% if tracks | length >= 1 %}
+                        <th class="text-center"><a href="#" class="btn btn-default checkbox-selector-all">Select all</a></th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                    {% for track in tracks %}
+                        <tr data-id="{{ track.id }}">
+                            <td class="linked" width="1"><img src="/{{ track.thumbnail_filepath }}" width="130px"></td>
+                            <td class="linked"><span class="vcenter">{{ track.title }}</span></td>
+                            <td class="linked">{{ track.artist | default('-') }}</td>
+                            <td class="linked">{{ track.album | default('-') }}</td>
+                            <td class="linked">{{ track.youtube_channel }}</td>
+                            <td class="linked">{{ track.youtube_views | number_format(0, '.', "'") }}</td>
+                            <td class="linked">{{ track.duration }}</td>
+                            <td class="actionRow" width="1">
+                                <a href="#" class="btn btn-default btn-sm remove track_remove glyphicon glyphicon-trash" data-id="track_{{ track.id }}"></a>
+                                <a href="#" class="btn btn-default btn-sm select track_select checkbox-container" data-id="track_{{ track.id }}"><div class="checkbox-selector"></div></a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center"><small>No track found</small></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block additionalJs %}
+    <script src="/script/pages/trackList.js"></script>
+{% endblock %}
