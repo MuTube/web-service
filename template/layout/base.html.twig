@@ -3,6 +3,7 @@
     <head>
         <title>{% block pageTitle %}{% endblock %}</title>
         {% include 'layout/head.html.twig' %}
+        {% block additionalCss %}{% endblock %}
     </head>
     <body>
         {% include 'layout/header.html.twig' %}
@@ -13,6 +14,6 @@
         {% include 'layout/footer.html.twig' %}
         {% include 'layout/foot.html.twig' %}
         <!-- page specific scripts -->
-        {% block additionnalJs %}{% endblock %}
+        {% block additionalJs %}{% endblock %}
     </body>
 </html>

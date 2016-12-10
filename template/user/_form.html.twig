@@ -2,9 +2,11 @@
     <div class="form-group">
         <label for="userImage">Image :</label>
         <input type="file" id="userImage" name="image" class="form-control">
-        <div class="image-container">
-            <img src="/files/user_image/{{ userImageName | default('default.png') }}" id="userImage" class="center-block" width="55%">
-        </div>
+        {% if userImageName %}
+            <div class="image-container">
+                <img src="/files/user_image/{{ userImageName }}" id="userImage" class="center-block" width="55%">
+            </div>
+        {% endif %}
     </div>
     {% if userId %}
         <div class="form-group">

@@ -22,6 +22,7 @@ class FileManager {
     }
 
     public static function processCurlDownloadedImageToDestination($imageContent, $destination) {
+        if(self::fileExistWithPath($destination)) self::deleteFile($destination);
         self::generateFileWithContent($destination, $imageContent);
     }
 

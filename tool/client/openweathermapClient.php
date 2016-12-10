@@ -4,9 +4,16 @@ class OpenweathermalClient {
     public static function getWeatherDataForLocation($location) {
         $location = str_replace(' ', '', $location);
         $apiKey = ConfigHelper::getOpenWheaterMapConfig()['api_key'];
-        $url = "http://api.openweathermap.org/data/2.5/weather?q=$location&units=metric&cnt=7&lang=en&APPID=$apiKey";
+        $url = "http://api.openweathermap.org/data/2.5/weather";
 
-        $json = CurlController::runGetRequest($url);
+        $json = CurlController::runGetRequest($url, [
+            'q' => $location,
+            'units' => 'metric',
+            'cnt' => '7',
+            'lang' => 'en',
+            'APPID' => $apiKey
+        ]);
+
         $result = json_decode($json);
 
         return self::formatWeatherData($result);

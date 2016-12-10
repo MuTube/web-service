@@ -22,10 +22,12 @@ class TrackCommandController extends CommonCommandController {
     public function remove() {
         $this->denyAccessWithoutOneOfPermissions(['track_management']);
         $ids = strpos($this->params['path']['id'], '-') ? explode('-', $this->params['path']['id']) : [$this->params['path']['id']];
+        $trackTable = DbController::getTable('track');
+        $trackHistoryTable = DbController::getTable('trackHistory');
 
         try {
-            DbController::getTable('trackHistory')->removeWithIds($ids);
-            DbController::getTable('track')->removeWithTrackHistoryId($ids);
+            $trackHistoryTable->removeWithIds($ids);
+            $trackTable->removeWithTrackHistoryId($ids);
 
             // HANDLE FILE AND THUMBNAIL DELETION
 
@@ -41,9 +43,13 @@ class TrackCommandController extends CommonCommandController {
     public function edit() {
         $this->denyAccessWithoutOneOfPermissions(['track_management']);
 
-        $trackTable = DbController::getTable('track_history');
+        $trackTable = DbController::getTable('trackHistory');
         $track = $trackTable->getById($this->params['path']['id']);
         $form = new TrackFormHelper($track);
+
+        $this->data['formValues'] = $form->getValues();
+        $this->data['trackId'] = $track['id'];
+        $this->data['track'] = $track;
 
         if(!empty($this->params['post'])) {
             try {
@@ -59,10 +65,6 @@ class TrackCommandController extends CommonCommandController {
             $this->redirect('track/' . $track['id'] . '/edit');
         }
 
-        $this->data['formValues'] = $form->getValues();
-        $this->data['trackId'] = $track['id'];
-        $this->data['userImageName'] = $track['image_name'];
-
         $this->setTemplate('track/edit.html.twig');
     }
 
@@ -71,21 +73,40 @@ class TrackCommandController extends CommonCommandController {
 
         if(isset($this->params['get']['searchTerm'])) {
             $searchTerm = $this->params['get']['searchTerm'];
+            $registredTracks = DbController::getTable('trackHistory')->getList();
+            $searchResults = YoutubeClient::getVideoSearchResultsForSearchTerm($searchTerm, $registredTracks);
 
             $this->data['searchTerm'] = $searchTerm;
-            $this->data['searchResults'] = YoutubeClient::getVideoSearchResultsForSearchterm($searchTerm);
+            $this->data['searchResults'] = $searchResults;
         }
 
         $this->setTemplate('track/add.html.twig');
     }
 
+    public function addAutocomplete() {
+        $this->denyAccessWithoutOneOfPermissions(['track_management']);
+
+        if(isset($this->params['get']['searchTerm'])) {
+            try {
+                $searchTerm = $this->params['get']['searchTerm'];
+                $result = YoutubeQuickDataClientClient::getYoutubeAutocompleteDataForSearchTerm($searchTerm);
+                $this->renderJSON($result);
+            } catch(Exception $e) {
+                ExceptionHandler::renderSoftException($e);
+                $this->redirect('track');
+            }
+        }
+        else {
+            $this->setNoContent();
+        }
+    }
+
     public function register() {
         $this->denyAccessWithoutOneOfPermissions(['track_management']);
 
-
         if(array_key_exists('yid', $this->params['get'])) {
             try {
-                $this->data['videoData'] = YoutubeClient::getVideoDetailsForVideoId($this->params['get']['yid']);
+                $this->data['track'] = YoutubeClient::getVideoDetailsForVideoId($this->params['get']['yid']);
             }
             catch(Exception $e) {
                 ExceptionHandler::renderSoftException($e);
@@ -95,9 +116,11 @@ class TrackCommandController extends CommonCommandController {
         elseif(array_key_exists('id', $this->params['post'])) {
             $form = new TrackFormHelper($this->params['post']);
             $trackTable = DbController::getTable('trackHistory');
+            $this->data['formValues'] = $form->getValues();
 
             try {
                 $trackData = YoutubeClient::getVideoDetailsForVideoId($this->params['post']['id']);
+                $this->data['track'] = $trackData;
                 $newThumbnailFilePath = "files/track_thumbnails/".$trackData['id']."_thumbnail.png";
                 $newTrack = array_merge($form->getValues(), [
                     'youtube_channel' => $trackData['youtube_channel'],
@@ -114,8 +137,8 @@ class TrackCommandController extends CommonCommandController {
                 $this->redirect('track');
             }
             catch(Exception $e) {
-                ExceptionHandler::renderSoftException($e);
-                $this->redirect('track/register/yid='.$this->params['post']['id']);
+                ExceptionHandler::renderSoftException(new SoftException($e->getMessage()));
+                $this->redirect('track/register?yid='.$this->params['post']['id']);
             }
         }
 

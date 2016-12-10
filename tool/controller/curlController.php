@@ -1,7 +1,8 @@
 <?php
 
 class CurlController {
-    public static function runGetRequest($url) {
+    public static function runGetRequest($url, $params = []) {
+        if(count($params) != 0) $url = self::buildGetURL($url, $params);
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -38,5 +39,15 @@ class CurlController {
         curl_close ($ch);
 
         FileManager::processCurlDownloadedImageToDestination($result, $destinationPath);
+    }
+
+    protected static function buildGetURL($url, $params) {
+        $resultUrl = $url . "?";
+
+        foreach($params as $label => $param) {
+            $resultUrl .= $label . "=" . urlencode($param) . "&";
+        }
+
+        return rtrim($resultUrl, "&");
     }
 }

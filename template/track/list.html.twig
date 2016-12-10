@@ -34,7 +34,7 @@
                 <tbody>
                     {% for track in tracks %}
                         <tr data-id="{{ track.id }}">
-                            <td class="linked" width="1"><img src="{{ "/" ~ track.thumbnail_filepath }}" width="130px"></td>
+                            <td class="linked" width="1"><img src="/{{ track.thumbnail_filepath }}" width="130px"></td>
                             <td class="linked"><span class="vcenter">{{ track.title }}</span></td>
                             <td class="linked">{{ track.artist | default('-') }}</td>
                             <td class="linked">{{ track.album | default('-') }}</td>
@@ -57,6 +57,6 @@
     </div>
 {% endblock %}
 
-{% block additionnalJs %}
+{% block additionalJs %}
     <script src="/script/pages/trackList.js"></script>
 {% endblock %}

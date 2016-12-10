@@ -1,21 +1,20 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block pageTitle %}Track Registration{% endblock %}
+{% block pageTitle %}Edit a Track{% endblock %}
 
 {% block content %}
     <div class="container container-form">
         <div class="page-header pusher">
             <div class="pusher__body">
-                <h1>Register Youtube Track :</h1>
+                <h1>Edit a Track :</h1>
             </div>
             <div class="pusher__item__header">
                 {% if hasAccess({ 0 : 'track_management' }) %}
                     <a href="/track" class="btn btn-primary btn-lg">Back to list</a>
-                    <a href="/track/add" class="btn btn-primary btn-lg">Back to search</a>
                 {% endif %}
             </div>
         </div>
-        {% set mode = 'register' %}
+        {% set mode = 'edit' %}
         {% include 'track/_form.html.twig' %}
     </div>
 {% endblock %}
