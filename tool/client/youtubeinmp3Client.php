@@ -11,6 +11,10 @@ class Youtubeinmp3Client {
 
         $result = json_decode($json, true);
 
+        if(isset($result['error'])) {
+            throw new Exception("Youtube MP3 converter error : " . $result['error']);
+        }
+
         return $result['link'];
     }
 }

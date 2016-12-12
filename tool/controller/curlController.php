@@ -13,32 +13,41 @@ class CurlController {
 
         $result = curl_exec($ch);
 
-        if($error = curl_error($ch) != "") {
-            throw new Exception("CURL Error : " . $error);
-        }
+        $error = curl_error($ch);
+        $httpResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);
+
+        if($error != "") {
+            throw new Exception("CURL Error : " . $error);
+        }
+        elseif($httpResponseCode != 200) {
+            throw new Exception("CURL Error : Invalid response code (" . $httpResponseCode . ")");
+        }
 
         return $result;
     }
 
     public static function downloadFileToDestination($url, $destinationPath) {
         $ch = curl_init();
+        $file = fopen($destinationPath, "w");
 
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+        curl_setopt($ch, CURLOPT_FILE, $file);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 90);
 
-        $result = curl_exec($ch);
+        curl_exec($ch);
 
         if($error = curl_error($ch) != "") {
             throw new Exception("CURL Error : " . $error);
         }
+        elseif($httpResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE) != 200) {
+            throw new Exception("CURL Error : Invalid response code (" . $httpResponseCode . ")");
+        }
 
         curl_close ($ch);
-
-        FileManager::processCurlDownloadedImageToDestination($result, $destinationPath);
     }
 
     protected static function buildGetURL($url, $params) {

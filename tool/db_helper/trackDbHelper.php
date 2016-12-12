@@ -5,6 +5,14 @@ class TrackDbHelper extends CommonDbHelper {
         $this->tableName = 'track';
     }
 
+    public function getByMP3FilePath($mp3FilePath) {
+        return $this->fetch("SELECT * FROM track WHERE mp3_filepath = %s", [DbController::sanitizeQueryInput($mp3FilePath)]);
+    }
+
+    public function updateTrackHistoryIdById($id, $trackHistoryId) {
+        $this->execQuery("UPDATE track SET track_history_id = %s", [DbController::sanitizeQueryInput($trackHistoryId)]);
+    }
+
     public function removeWithTrackHistoryId($trackHistoryIds) {
         $ids = is_array($trackHistoryIds) ? $trackHistoryIds : [$trackHistoryIds];
         $query = "DELETE FROM track WHERE ";
