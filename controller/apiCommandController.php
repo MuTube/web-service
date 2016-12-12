@@ -63,8 +63,6 @@ class ApiCommandController extends CommonCommandController {
 
         if(($existingTrackData = $trackTable->getByMP3FilePath($newMP3FilePath)) == null && !FileManager::fileExistWithPath($newMP3FilePath)) {
             $mp3DownloadURL = Youtubeinmp3Client::getMP3DownloadURLWithYoutubeID($youtubeId);
-
-            // HANDLE ERROR AND RETRY IF ITS NOT A FATAL ERROR
             CurlController::downloadFileToDestination($mp3DownloadURL, $newMP3FilePath);
 
             if(($existingTrackHistoryData = $trackHistoryTable->getByYoutubeId($youtubeId)) == null) {
