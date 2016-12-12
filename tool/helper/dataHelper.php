@@ -21,7 +21,7 @@ class DataHelper {
             'year' => $siteInfo['site_year']
         ];
 
-        $data['baseUrl'] = $_SERVER['SERVER_NAME'];
+        $data['baseUrl'] = 'http://' . $_SERVER['SERVER_NAME'];
         $data['currentUri'] = $_SERVER['REQUEST_URI'];
         $data['currentDate'] = date('d.m.Y');
         $data['isValidUser'] = SessionController::checkSessionValidity();

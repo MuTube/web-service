@@ -21,11 +21,6 @@ class FileManager {
         self::uploadFile($file, $newPath);
     }
 
-    public static function processCurlDownloadedImageToDestination($imageContent, $destination) {
-        if(self::fileExistWithPath($destination)) self::deleteFile($destination);
-        self::generateFileWithContent($destination, $imageContent);
-    }
-
     public static function savePngImageAtPath($image, $path) {
         if(self::fileExistWithPath($path)) throw new Exception('file already exists');
         imagepng($image, $path, 8);
@@ -39,6 +34,14 @@ class FileManager {
         unlink($path);
     }
 
+    public static function fileExistWithPath($path) {
+        return file_exists($path);
+    }
+
+    public static function directoryExists($dir) {
+        return is_dir($dir);
+    }
+
     protected static function replaceFile($basePath, $oldName, $newFile) {
         if(self::fileExistWithPath($basePath . $oldName)) {
             self::deleteFile($basePath . $oldName);
@@ -47,25 +50,8 @@ class FileManager {
         self::uploadFile($newFile, $basePath);
     }
 
-    protected static function generateFileWithContent($fileName, $content) {
-        if(self::fileExistWithPath($fileName)) throw new Exception("File already exist...");
-        clearstatcache();
-
-        $file = fopen($fileName, "w");
-        fwrite($file, $content);
-        fclose($file);
-    }
-
     protected static function uploadFile($file, $path) {
         move_uploaded_file($file['tmp_name'], $path);
-    }
-
-    protected static function fileExistWithPath($path) {
-        return file_exists($path);
-    }
-
-    protected static function directoryExists($dir) {
-        return is_dir($dir);
     }
 
     protected static function validateFile($file, $types = []) {
