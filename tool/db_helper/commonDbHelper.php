@@ -51,9 +51,9 @@ class CommonDbHelper {
         }
 
         $this->execQuery("INSERT INTO %s (%s) VALUES (%s)", [$this->tableName,  implode(',', $valuesNames), implode(",", $values)]);
-        $id = $this->fetch("SELECT id FROM %s WHERE %s = %s", [$this->tableName, $valuesNames[0], DbController::sanitizeQueryInput($values[$valuesNames[0]])]);
+        $data = $this->fetch("SELECT id FROM %s WHERE %s = %s", [$this->tableName, $valuesNames[0], $values[$valuesNames[0]]]);
 
-        return $id['id'];
+        return $data['id'];
     }
 
     public function removeWithIds($ids) {

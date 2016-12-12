@@ -50,7 +50,7 @@ class ApiCommandController extends CommonCommandController {
 
     // API Methods
 
-    protected function DownloadTrack() {
+    protected function RequestTrack() {
         $youtubeId = $this->resourceId;
 
         if(!isset($youtubeId) || $youtubeId == "") {
