@@ -2,6 +2,7 @@
 
 class CommonDbHelper {
 
+    public $tableName = "";
 
     public function getSelectorData() {}
 

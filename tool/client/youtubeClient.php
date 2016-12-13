@@ -31,7 +31,12 @@ class YoutubeClient {
 
         $result = json_decode($json, true);
 
-        return self::formatYoutubeVideoDetails($result);
+        if(count($result['items']) != 0) {
+            return self::formatYoutubeVideoDetails($result);
+        }
+        else {
+            return null;
+        }
     }
 
     protected static function formatYoutubeSearchResult($result) {
