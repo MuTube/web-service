@@ -107,16 +107,16 @@ class ApiCommandController extends CommonCommandController {
     }
 
     protected function GetTrackData() {
-        $trackHistoryId = $this->resourceId;
+        $youtubeId = $this->resourceId;
 
-        if(!isset($trackHistoryId) || $trackHistoryId == "") {
-            throw new Exception("Invalid id");
+        if(!isset($youtubeId) || $youtubeId == "") {
+            throw new Exception("Invalid youtube id");
         }
 
-        $trackData = DbController::getTable('trackHistory')->getById($trackHistoryId);
+        $trackData = DbController::getTable('trackHistory')->getByYoutubeId($youtubeId);
 
         if($trackData == null) {
-            throw new Exception("Invalid id");
+            throw new Exception("Invalid youtube id");
         }
 
         unset($trackData['id']);
