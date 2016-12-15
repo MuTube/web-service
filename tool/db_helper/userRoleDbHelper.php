@@ -21,17 +21,6 @@ class UserRoleDbHelper extends CommonDbHelper {
         return $roles;
     }
 
-    public function getSelectorData() {
-        $roles = $this->getList();
-        $selectOptions = [];
-
-        foreach($roles as $role) {
-            $selectOptions[$role['id']] = $role['name'];
-        }
-
-        return $selectOptions;
-    }
-
     public function updatePermissions($roleId, $permission_ids) {
         $this->execQuery("DELETE FROM role_2_permission WHERE role_id = %s", DbController::sanitizeQueryInput($roleId));
 
@@ -43,9 +32,28 @@ class UserRoleDbHelper extends CommonDbHelper {
         }
     }
 
+    public function updatePermissionsBy($by, $identifier, $permissionIds) {
+        $role = $this->getBy($by, $identifier);
+        $this->execQuery("DELETE FROM role_2_permission WHERE role_id = %s", DbController::sanitizeQueryInput($role['id']));
+
+        foreach ($permissionIds as $permissionId) {
+            $this->execQuery("INSERT INTO role_2_permission (role_id, permission_id) VALUES (%s, %s)", [
+                DbController::sanitizeQueryInput($role['id']),
+                DbController::sanitizeQueryInput($permissionId)
+            ]);
+        }
+    }
+
     public function removeWithId($roleId){
         $this->execQuery("DELETE FROM role_2_permission WHERE role_id = %s", DbController::sanitizeQueryInput($roleId));
         parent::removeWithId($roleId);
+    }
+
+    public function removeBy($by, $identifier) {
+        $role = $this->getBy($by, $identifier);
+
+        $this->execQuery("DELETE FROM role_2_permission WHERE role_id = %s", DbController::sanitizeQueryInput($role['id']));
+        parent::removeBy('id', $role['id']);
     }
 
     protected function validateData($values) {

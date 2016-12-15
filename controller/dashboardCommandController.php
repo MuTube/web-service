@@ -25,7 +25,7 @@ class DashboardCommandController extends CommonCommandController {
             : false;
 
         return [
-            'user' => DbController::getTable('user')->getById($this->user['uid']),
+            'user' => UserViewModel::getBy('id', $this->user['uid']),
             'userLocation' => $userLoc,
             'weatherData' => $weatherData,
         ];

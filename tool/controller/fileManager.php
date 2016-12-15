@@ -14,7 +14,9 @@ class FileManager {
     public static function processUserImage($file, $oldFileName, $newFileName = false) {
         self::validateFile($file, ['png', 'jpg', 'jpeg', 'gif']);
 
-        self::deleteFile('files/user_image/' . $oldFileName);
+        if(self::fileExistWithPath('files/user_image/' . $oldFileName)) {
+            self::deleteFile('files/user_image/' . $oldFileName);
+        }
 
         $newPath = 'files/user_image/' . $newFileName;
         if(self::fileExistWithPath($newPath)) self::deleteFile($newPath);
@@ -27,10 +29,6 @@ class FileManager {
     }
 
     public static function deleteFile($path) {
-        if(!self::fileExistWithPath($path)) {
-            throw new SoftException("No file found at path '" . $path . "'");
-        }
-
         unlink($path);
     }
 

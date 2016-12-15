@@ -24,6 +24,6 @@ class SettingCommandController extends CommonCommandController {
     }
 
     protected function getPermissionsData() {
-        return ['roles' => DbController::getTable('userRole')->getListWithPermissionIds()];
+        return ['roles' => RoleViewModel::getListWithPermissionIds()];
     }
 }

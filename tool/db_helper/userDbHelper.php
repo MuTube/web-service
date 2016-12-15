@@ -24,6 +24,16 @@ class UserDbHelper extends CommonDbHelper {
         ", [$id]);
     }
 
+    public function getBy($name, $identifier) {
+        return $this->fetch("
+            SELECT u.*,
+                r.name AS role_name
+            FROM usr_data u
+            LEFT JOIN usr_role r ON r.id = u.role_id
+            WHERE u.%s = %s   
+        ", [$name, DbController::sanitizeQueryInput($identifier)]);
+    }
+
     public function getForUsername($usrname) {
         return $this->fetch("SELECT * FROM %s WHERE usrname=%s", array($this->tableName, DbController::sanitizeQueryInput($usrname)));
     }
@@ -43,11 +53,20 @@ class UserDbHelper extends CommonDbHelper {
 
     public function updatePasswordForUid($uid, $password) {
         $password = SessionController::passwordEncryption($password);
-        $this->execQuery("UPDATE %s SET pswd=%s WHERE id= %s", [$this->tableName, DbController::sanitizeQueryInput($password), DbController::sanitizeQueryInput($uid)]);
+        $this->execQuery("UPDATE %s SET pswd = %s WHERE id = %s", [$this->tableName, DbController::sanitizeQueryInput($password), DbController::sanitizeQueryInput($uid)]);
+    }
+
+    public function updatePasswordBy($by, $identifier, $password) {
+        $password = SessionController::passwordEncryption($password);
+        $this->execQuery("UPDATE %s SET pswd = %s WHERE %s = %s", [$this->tableName, DbController::sanitizeQueryInput($password), $by, DbController::sanitizeQueryInput($identifier)]);
     }
 
     public function updateAPIKeyForUid($uid, $key) {
         $this->execQuery("UPDATE %s SET api_key=%s WHERE id= %s", [$this->tableName, DbController::sanitizeQueryInput($key), DbController::sanitizeQueryInput($uid)]);
+    }
+
+    public function updateAPIKeyBy($by, $identifier, $key) {
+        $this->execQuery("UPDATE %s SET api_key = %s WHERE %s = %s", [$this->tableName, DbController::sanitizeQueryInput($key), $by,  DbController::sanitizeQueryInput($identifier)]);
     }
 
     public function getPermissionsForUid($userId) {
@@ -65,7 +84,22 @@ class UserDbHelper extends CommonDbHelper {
         ", [DbController::sanitizeQueryInput($roleId)]);
     }
 
-    public function removeDeletedRoleFromUsers($roleId) {
+    public function getPermissionsBy($by, $identifier) {
+        $roleId = $this->getBy($by, $identifier)['role_id'];
+
+        if($roleId == 0) {
+            return false;
+        }
+
+        return $this->fetchAll("
+          SELECT p.*
+          FROM role_2_permission rp
+          LEFT JOIN permission_data p ON p.id = rp.permission_id
+          WHERE rp.role_id = %s
+        ", [DbController::sanitizeQueryInput($roleId)]);
+    }
+
+    public function removeRoleFromUsers($roleId) {
         $this->execQuery("UPDATE %s SET role_id = 0 WHERE role_id = %s", [$this->tableName, DbController::sanitizeQueryInput($roleId)]);
     }
 

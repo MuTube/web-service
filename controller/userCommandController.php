@@ -4,35 +4,22 @@ class UserCommandController extends CommonCommandController {
     public function defaultLoading() {
         $this->denyAccessWithoutOneOfPermissions(['user_management', 'user_list']);
 
-        $userTable = DbController::getTable('user');
-        $this->data['users'] = $userTable->getList();
-
+        $this->data['users'] = UserViewModel::getList();
         $this->setTemplate('user/list.html.twig');
     }
 
     public function create() {
         $this->denyAccessWithoutOneOfPermissions(['user_management', 'user_create']);
-
-        $userTable = DbController::getTable('user');
         $form = new UserFormHelper();
 
         if(!empty($this->params['post'])) {
             try {
-                $form->loadValues($this->params['post']);
-
-                if($userTable->getForUsername($form->getValues()['usrname'])) throw new SoftException('Username already exists');
-
-                $id = $userTable->create($form->getValues());
-                $userTable->updatePasswordForUid($id, $this->params['post']['pswd']);
-                $userTable->updateAPIKeyForUid($id, SessionController::generateAPIKey());
-
                 if($this->params['files']['image']['error'] != 4) {
                     $image = $this->params['files']['image'];
-                    $newFileName = $id . '_' . $image['name'];
-
-                    FileManager::processUserImage($image, null, $newFileName);
-                    $userTable->updateById($id, ['image_name' => $newFileName]);
                 }
+
+                $form->loadValues($this->params['post']);
+                $id = UserViewModel::add($form->getValues(), isset($image) ? $image : false);
 
                 MessageController::addFlashMessage('success', 'User successfully created with id "' . $id .'"');
             }
@@ -50,31 +37,24 @@ class UserCommandController extends CommonCommandController {
     public function read() {
         $this->denyAccessWithoutOneOfPermissions(['user_management', 'user_read', 'user_'.$this->params['path']['id'].'_change_password']);
 
-        $userTable = DbController::getTable('user');
-        $this->data['user'] = $userTable->getById($this->params['path']['id']);
-
+        $this->data['user'] = UserViewModel::getBy('id', $this->params['path']['id']);
         $this->setTemplate('user/read.html.twig');
     }
 
     public function edit() {
         $this->denyAccessWithoutOneOfPermissions(['user_management', 'user_edit', 'user_'.$this->params['path']['id'].'_edit']);
 
-        $userTable = DbController::getTable('user');
-        $user = $userTable->getById($this->params['path']['id']);
+        $user = UserViewModel::getBy('id', $this->params['path']['id']);
         $form = new UserFormHelper($user);
 
         if(!empty($this->params['post'])) {
             try {
-                $form->loadValues($this->params['post']);
-                $userTable->updateById($user['id'], $form->getValues());
-
                 if($this->params['files']['image']['error'] != 4) {
                     $image = $this->params['files']['image'];
-                    $newFileName = $user['id'] . '_' . $image['name'];
-
-                    FileManager::processUserImage($image, $user['image_name'], $newFileName);
-                    $userTable->updateById($user['id'], ['image_name' => $newFileName]);
                 }
+
+                $form->loadValues($this->params['post']);
+                UserViewModel::updateBy('id', $user['id'], $form->getValues(), isset($image) ? $image : false);
 
                 MessageController::addFlashMessage('success', 'User "' . $form->getValues()['usrname'] . '" successfully updated');
             }
@@ -97,7 +77,10 @@ class UserCommandController extends CommonCommandController {
         $ids = strpos($this->params['path']['id'], '-') ? explode('-', $this->params['path']['id']) : [$this->params['path']['id']];
 
         try {
-            DbController::getTable('user')->removeWithIds($ids);
+            foreach($ids as $id) {
+                UserViewModel::removeBy('id', $id);
+            }
+
             MessageController::addFlashMessage('success', "Users ".explode(', ', $ids)." successfully removed");
         }
         catch(Exception $e) {
@@ -108,19 +91,15 @@ class UserCommandController extends CommonCommandController {
     }
 
     public function changePassword() {
-        $userTable = DbController::getTable('user');
+        $this->denyAccessWithoutOneOfPermissions(['user_management', 'user_' . $this->params['path']['id'] . '_change_password']);
+
         $userId = $this->params['path']['id'];
-
-        $this->denyAccessWithoutOneOfPermissions(['user_management', 'user_'.$userId.'_change_password']);
-
-        $this->data['user'] = $userTable->getById($userId);
+        $this->data['user'] = UserViewModel::getBy('id', $userId);
 
         if(!empty($this->params['post'])) {
             try {
                 $form = new PasswordFormHelper($this->params['post']);
-
-                $userTable->validatePasswordReset($form->getValues());
-                $userTable->updatePasswordForUid($userId, $form->getValues()['newPassword']);
+                UserViewModel::updatePasswordBy('id', $userId, $form->getValues());
 
                 MessageController::addFlashMessage('success', 'password successfully updated');
             }
@@ -128,23 +107,19 @@ class UserCommandController extends CommonCommandController {
                 ExceptionHandler::renderSoftException($e);
             }
 
-            $this->redirect('user/'.$userId.'/read');
+            $this->redirect('user/'.$userId.'/changePassword');
         }
 
         $this->setTemplate('user/changePassword.html.twig');
     }
 
     public function resetAPIKey() {
-        $userTable = DbController::getTable('user');
+        $this->denyAccessWithoutOneOfPermissions(['user_' . $this->params['path']['id'] . '_reset_api_key']);
         $userId = $this->params['path']['id'];
 
-        $this->denyAccessWithoutOneOfPermissions(['user_'.$userId.'_reset_api_key']);
-
-        $this->data['user'] = $userTable->getById($userId);
-
         try {
-            $userTable->updateAPIKeyForUid($userId, SessionController::generateAPIKey());
-            MessageController::addFlashMessage('success', 'Api key sucessfully reset');
+            UserViewModel::resetAPIKeyBy('id', $userId);
+            MessageController::addFlashMessage('success', 'Api key successfully reset');
         }
         catch(Exception $e) {
             ExceptionHandler::renderSoftException($e);
@@ -154,12 +129,11 @@ class UserCommandController extends CommonCommandController {
     }
 
     public function profile() {
-        $userTable = DbController::getTable('user');
-        $currentUser = $userTable->getById($this->user['uid']);
+        $currentUser = UserViewModel::getBy('id', $this->user['uid']);
 
         $this->data['currentUser'] = $currentUser;
         $this->data['permissions'] = UserHelper::getPermissionsForCurrentUserOrUid();
-        $this->data['allPermissions'] = DbController::getTable('permission')->getList();
+        $this->data['allPermissions'] = PermissionViewModel::getList();
 
         $this->setTemplate('user/profile.html.twig');
     }

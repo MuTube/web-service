@@ -36,7 +36,6 @@ class SessionController {
             return false;
         }
 
-        $userTable = DbController::getTable('user');
         $sessionData = [
             "id" => $_SESSION["user"]["uid"],
             "usrname" => $_SESSION["user"]["username"],
@@ -44,19 +43,17 @@ class SessionController {
             "lastname" => $_SESSION["user"]["userData"]["lastName"],
         ];
 
-        return !empty($userTable->getForFullUserData($sessionData));
+        return !empty(UserViewModel::getForFullData($sessionData));
     }
 
     public static function checkAPIAuthentification($apiKey) {
-        $userTable = DbController::getTable('user');
-
-        if((!$userTable->getForAPIKey($apiKey) || $apiKey == "") && !self::checkSessionValidity()) {
+        if((!UserViewModel::getBy('api_key', $apiKey) || $apiKey == "") && !self::checkSessionValidity()) {
             throw new Exception("Invalid API Key");
         }
     }
 
     public static function checkAuthentication($username, $pswd) {
-        if($user = DbController::getTable('user')->getForUsername($username)) {
+        if($user = UserViewModel::getBy('usrname', $username)) {
             if(hash_equals($user['pswd'], crypt($pswd, $user['pswd']))) {
                 return true;
             }
