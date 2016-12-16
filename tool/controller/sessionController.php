@@ -2,17 +2,21 @@
 
 class SessionController {
 
-    public static function login($usrname, $pswd) {
+    public static function login($username, $password) {
         try {
-            if(self::checkAuthentication($usrname, $pswd)) {
-                $usrData = UserHelper::getDataForUsername($usrname);
+            if(self::checkAuthentication($username, $password)) {
+                $userData = UserHelper::getDataForCurrentUserOrUsername($username);
 
                 $_SESSION['user'] = [
-                    'username' => $usrname,
-                    'uid' => $usrData['id'],
-                    'userData' => ['firstName' => $usrData['firstname'], 'lastName' => $usrData['lastname'], 'email' => $usrData['email']],
-                    'userPermissions' => $usrData['permissions'],
-                    'userLocation' => $usrData['userLocation']
+                    'username' => $username,
+                    'uid' => $userData['id'],
+                    'userData' => [
+                        'firstName' => $userData['firstname'],
+                        'lastName' => $userData['lastname'],
+                        'email' => $userData['email']
+                    ],
+                    'userPermissions' => $userData['permissions'],
+                    'userLocation' => $userData['userLocation']
                 ];
             }
         } catch (Exception $e) {
@@ -38,23 +42,23 @@ class SessionController {
 
         $sessionData = [
             "id" => $_SESSION["user"]["uid"],
-            "usrname" => $_SESSION["user"]["username"],
+            "username" => $_SESSION["user"]["username"],
             "firstname" => $_SESSION["user"]["userData"]["firstName"],
             "lastname" => $_SESSION["user"]["userData"]["lastName"],
         ];
 
-        return !empty(UserViewModel::getForFullData($sessionData));
+        return !empty(UserViewModel::getByMultipleValues($sessionData));
     }
 
     public static function checkAPIAuthentification($apiKey) {
-        if((!UserViewModel::getBy('api_key', $apiKey) || $apiKey == "") && !self::checkSessionValidity()) {
+        if(($apiKey == "" || !UserViewModel::getBy('api_key', $apiKey)) && !self::checkSessionValidity()) {
             throw new Exception("Invalid API Key");
         }
     }
 
-    public static function checkAuthentication($username, $pswd) {
-        if($user = UserViewModel::getBy('usrname', $username)) {
-            if(hash_equals($user['pswd'], crypt($pswd, $user['pswd']))) {
+    public static function checkAuthentication($username, $password) {
+        if($user = UserViewModel::getBy('username', $username)) {
+            if(hash_equals($user['password'], crypt($password, $user['password']))) {
                 return true;
             }
             else {
@@ -66,8 +70,8 @@ class SessionController {
         }
     }
 
-    public static function passwordEncryption($pswd) {
-        return crypt($pswd);
+    public static function passwordEncryption($password) {
+        return crypt($password);
     }
 
     public static function generateAPIKey() {

@@ -2,11 +2,14 @@
 
 class UserHelper {
 
-    public static function getDataForUsername($usrname) {
-        $userData = UserViewModel::getBy('usrname', $usrname);
+    public static function getDataForCurrentUserOrUsername($username = false) {
+        $username = !$username ? $_SESSION['user']['username'] : $username;
+        $userData = UserViewModel::getBy('username', $username);
+
         $userData['permissions'] = UserHelper::getPermissionsForCurrentUserOrUid($userData['id']);
         //$userData['userLocation'] = IpinfoClient::getUserLocation();
         $userData['userLocation'] = [];
+
         return $userData;
     }
 

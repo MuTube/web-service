@@ -15,8 +15,8 @@ class UserViewModel {
         return DbController::getTable('user')->getList();
     }
 
-    public static function getForFullData($data) {
-        return DbController::getTable('user')->getForFullUserData($data);
+    public static function getByMultipleValues($data) {
+        return DbController::getTable('user')->getByMultipleValues($data);
     }
 
     public static function getPermissionsBy($by, $identifier) {
@@ -25,21 +25,19 @@ class UserViewModel {
 
     // ADD
 
-    public static function add($data, $image = false) {
-        if(UserViewModel::getBy('usrname', $data['usrname']) != null) {
-            throw new Exception('Username already exists');
-        }
+    public static function add($data, $passwordData, $image = false) {
+        self::validateData($data);
 
         $userTable = DbController::getTable('user');
         $id = $userTable->create($data);
-        $userTable->updatePasswordForUid($id, $data['pswd']);
-        $userTable->updateAPIKeyForUid($id, SessionController::generateAPIKey());
+        self::updatePasswordBy('id', $id, $passwordData);
+        self::resetAPIKeyBy('id', $id);
 
         if($image != false) {
             $newFileName = $id . '_' . $image['name'];
 
             FileManager::processUserImage($image, null, $newFileName);
-            $userTable->updateById($id, ['image_name' => $newFileName]);
+            $userTable->updateBy('id', $id, ['image_name' => $newFileName]);
         }
 
         return $id;
@@ -49,6 +47,8 @@ class UserViewModel {
     // UPDATE
 
     public static function updateBy($by, $identifier, $data, $image = false) {
+        self::validateData($data);
+
         $user = UserViewModel::getBy($by, $identifier);
         $userTable = DbController::getTable('user');
         $userTable->updateBy($by, $identifier, $data);
@@ -58,15 +58,13 @@ class UserViewModel {
             $oldFileName = empty($user['image_name']) ? $newFileName : $user['image_name'];
 
             FileManager::processUserImage($image, $oldFileName, $newFileName);
-            $userTable->updateById($user['id'], ['image_name' => $newFileName]);
+            $userTable->updateBy('id', $user['id'], ['image_name' => $newFileName]);
         }
     }
 
     public static function updatePasswordBy($by, $identifier, $values) {
-        $userTable = DbController::getTable('user');
-
-        $userTable->validatePasswordReset($values);
-        $userTable->updatePasswordBy($by, $identifier, $values['newPassword']);
+        self::validatePasswordReset($values['password'], $values['password_confirmation']);
+        DbController::getTable('user')->updatePasswordBy($by, $identifier, $values['password']);
     }
 
     public static function resetAPIKeyBy($by, $identifier) {
@@ -88,7 +86,33 @@ class UserViewModel {
         $userTable->removeBy($by, $identifier);
     }
 
-    public static function removeRoleFromUserWithRoleId($roleId) {
+    public static function removeRoleFromUsersWithRoleId($roleId) {
+        DbController::getTable('user')->removeRoleFromUsers($roleId);
+    }
 
+
+    // VALIDATION
+
+    protected static function validateData($data) {
+        if(array_key_exists('email', $data)) {
+            if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL) && !empty($data['email'])) {
+                throw new Exception('Invalid email adress');
+            }
+        }
+
+        if(array_key_exists('role_id', $data)) {
+            if(empty($data['role_id'])) {
+                throw new Exception('A role is required');
+            }
+        }
+    }
+
+    protected static function validatePasswordReset($newPassword, $newPasswordConfirmation) {
+        if($newPassword != $newPasswordConfirmation) {
+            throw new Exception('Invalid confirmation of new password');
+        }
+        elseif(strlen($newPassword) < 6) {
+            throw new Exception('Password has to be longer than 6 characters');
+        }
     }
 }

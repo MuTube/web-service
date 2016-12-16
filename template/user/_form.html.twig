@@ -16,7 +16,7 @@
     {% endif %}
     <div class="form-group">
         <label for="userUsername">Username :</label>
-        <input type="text" id="userUsername" name="usrname" class="form-control" value="{{ formValues.usrname | default('') }}">
+        <input type="text" id="userUsername" name="username" class="form-control" value="{{ formValues.username | default('') }}">
     </div>
     <div class="form-group">
         <label for="userFirstname">Firstname :</label>
@@ -33,7 +33,11 @@
     {% if userId == false %}
         <div class="form-group">
             <label for="userPassword">Password :</label>
-            <input type="password" id="userPassword" name="pswd" class="form-control">
+            <input type="password" id="userPassword" name="password" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="userPasswordConfirmation">Password confimation :</label>
+            <input type="password" id="userPasswordConfirmation" name="password_confirmation" class="form-control">
         </div>
     {% endif %}
     <div class="form-group">

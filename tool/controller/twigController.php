@@ -108,8 +108,8 @@ class TwigController {
                 $entityType = $baseOptions['viewModel'];
 
                 //define displayed values
-                if($entityType == 'user') $entity['displayedName'] = $entity['usrname'];
-                elseif($entityType == 'contact') $entity['displayedName'] = $entity['firstname'] . ' ' . $entity['lastame'];
+                if($entityType == 'user') $entity['displayedName'] = $entity['username'];
+                elseif($entityType == 'contact') $entity['displayedName'] = $entity['firstname'] . ' ' . $entity['lastname'];
 
                 return $this->getRenderReadyTemplate('common/twigLink.html.twig', [
                     'entityType' => $entityType,

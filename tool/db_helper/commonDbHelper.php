@@ -4,12 +4,6 @@ class CommonDbHelper {
 
     public $tableName = "";
 
-    public function getSelectorData() {}
-
-    public function getById($id) {
-        return $this->fetch("SELECT * FROM %s WHERE id = %s", array($this->tableName, DbController::sanitizeQueryInput($id)));
-    }
-
     public function getBy($by, $identifier) {
         return $this->fetch("SELECT * FROM %s WHERE %s = %s", [$this->tableName, $by, DbController::sanitizeQueryInput($identifier)]);
     }
@@ -26,25 +20,7 @@ class CommonDbHelper {
         return $this->fetchAll("SELECT * FROM %s WHERE id IN (%s)", [$this->tableName, implode(', ', $ids)]);
     }
 
-    public function updateById($id, $values) {
-        $this->validateData($values);
-
-        $query = "UPDATE %s SET ";
-        $i = 1;
-
-        foreach($values as $name => $value) {
-            if($name != 'id') $query .= $name . "=" . DbController::sanitizeQueryInput($value);
-            $query .= ($i == count($values) ? ' ' : ', ');
-            $i += 1;
-        }
-
-        $query .= 'WHERE id = %s';
-        $this->execQuery($query, [$this->tableName, DbController::sanitizeQueryInput($id)]);
-    }
-
     public function updateBy($by, $identifier, $values) {
-        $this->validateData($values);
-
         $query = "UPDATE %s SET ";
         $i = 1;
 
@@ -58,17 +34,11 @@ class CommonDbHelper {
         $this->execQuery($query, [$this->tableName, $by, DbController::sanitizeQueryInput($identifier)]);
     }
 
-    public function removeWithId($id) {
-        if(empty($id)) throw new SoftException("Missing argument 'id'");
-        $this->execQuery("DELETE FROM %s WHERE id = %s", [$this->tableName, DbController::sanitizeQueryInput($id)]);
-    }
-
     public function removeBy($by, $identifier) {
         $this->execQuery("DELETE FROM %s WHERE %s = %s", [$this->tableName, $by, DbController::sanitizeQueryInput($identifier)]);
     }
 
     public function create($values) {
-        $this->validateData($values);
         $valuesNames = array_keys($values);
 
         foreach($values as $index => $value) {
@@ -93,6 +63,8 @@ class CommonDbHelper {
         $this->execQuery($query, [$this->tableName]);
     }
     
+
+    // BASE DB INTERACTION METHODS
 
     protected function execQuery($query, $params) {
         if(count($params) == substr_count($query, '%s')) {

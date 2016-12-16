@@ -8,15 +8,15 @@ class RoleViewModel {
             throw new Exception("No " . $by . " provided");
         }
 
-        return DbController::getTable('userRole')->getBy($by, $identifier);
+        return DbController::getTable('role')->getBy($by, $identifier);
     }
 
     public static function getList() {
-        return DbController::getTable('userRole')->getList();
+        return DbController::getTable('role')->getList();
     }
 
     public static function getListWithPermissionIds() {
-        return DbController::getTable('userRole')->getListWithPermissionIds();
+        return DbController::getTable('role')->getListWithPermissionIds();
     }
 
     public static function getSelectorData() {
@@ -34,17 +34,18 @@ class RoleViewModel {
     // ADD
 
     public static function add($data) {
-        $roleTable = DbController::getTable('userRole');
+        self::validateData($data);
+        $roleTable = DbController::getTable('role');
 
         $roleId = $roleTable->create(['name' => $data['name']]);
-        $roleTable->updatePermissions($roleId, $data['permission_ids']);
+        $roleTable->updatePermissionsBy('id', $roleId, $data['permission_ids']);
     }
 
 
     // UPDATE
 
     public static function updatePermissionsBy($by, $identifier, $permissionIds) {
-        DbController::getTable('userRole')->updatePermissionsBy($by, $identifier, $permissionIds);
+        DbController::getTable('role')->updatePermissionsBy($by, $identifier, $permissionIds);
     }
 
 
@@ -55,10 +56,21 @@ class RoleViewModel {
             throw new Exception("No " . $by . " provided");
         }
 
-        $roleTable = DbController::getTable('userRole');
+        $roleTable = DbController::getTable('role');
         $roleId = $roleTable->getBy($by, $identifier)['id'];
 
         $roleTable->removeBy('id', $roleId);
-        DbController::getTable('user')->removeRoleFromUsers($roleId);
+        UserViewModel::removeRoleFromUsersWithRoleId($roleId);
+    }
+
+
+    // VALIDATION
+
+    protected static function validateData($data) {
+        if(array_key_exists('name', $data)) {
+            if(empty($data['name'])) {
+                throw new SoftException('A name is required');
+            }
+        }
     }
 }

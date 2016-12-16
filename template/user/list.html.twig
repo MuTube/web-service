@@ -36,7 +36,7 @@
                 {% for user in users %}
                     <tr data-id="{{ user.id }}">
                         <td class="linked">{{ user.id }}</td>
-                        <td class="linked">{{ user.usrname }}</td>
+                        <td class="linked">{{ user.username }}</td>
                         <td class="linked">{{ user.firstname | default('-') }}</td>
                         <td class="linked">{{ user.lastname | default('-') }}</td>
                         <td class="linked">{{ user.email | default('-') }}</td>

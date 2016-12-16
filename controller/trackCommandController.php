@@ -4,7 +4,7 @@ class TrackCommandController extends CommonCommandController {
     public function defaultLoading() {
         $this->denyAccessWithoutOneOfPermissions(['track_management']);
 
-        $this->data['tracks'] = TrackViewModel::getList();
+        $this->data['tracks'] = TrackHistoryViewModel::getList();
         $this->setTemplate('track/list.html.twig');
     }
 
@@ -54,7 +54,7 @@ class TrackCommandController extends CommonCommandController {
                 $form->loadValues($this->params['post']);
                 TrackHistoryViewModel::updateBy('id', $trackHistoryData['id'], $form->getValues());
 
-                MessageController::addFlashMessage('success', 'Track "' . $form->getValues()['usrname'] . '" successfully updated');
+                MessageController::addFlashMessage('success', 'Track "' . $form->getValues()['title'] . '" successfully updated');
             }
             catch(Exception $e) {
                 ExceptionHandler::renderSoftException($e);

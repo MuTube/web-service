@@ -34,6 +34,7 @@ class TrackViewModel {
             'mp3_filepath' => $newMP3FilePath,
         ];
 
+        self::validateData($newTrackData);
         return DbController::getTable('track')->create($newTrackData);
     }
 
@@ -50,5 +51,16 @@ class TrackViewModel {
 
         FileManager::deleteFile($trackData['mp3_filepath']);
         $trackTable->removeBy($by, $identifier);
+    }
+
+
+    // VALIDATION
+
+    protected static function validateData($data) {
+        if(array_key_exists('mp3_filepath', $data)) {
+            if(!FileManager::fileExistWithPath($data['mp3_filepath'])) {
+                throw new Exception('Username already exists');
+            }
+        }
     }
 }

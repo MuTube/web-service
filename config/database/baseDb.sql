@@ -1,9 +1,10 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
 /* TABLE CREATION */
 
-CREATE TABLE `permission_data` (
+CREATE TABLE `permission` (
   `id` int(11) NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(300) COLLATE utf8_unicode_ci DEFAULT NULL
@@ -17,20 +18,20 @@ CREATE TABLE `role_2_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
-CREATE TABLE `usr_data` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `firstname` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `lastname` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  `usrname` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `pswd` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `api_key` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `role_id` int(11) NOT NULL,
   `image_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
-CREATE TABLE `usr_role` (
+CREATE TABLE `role` (
   `id` int(11) NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -55,20 +56,18 @@ CREATE TABLE `track_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
-
 /* TABLES PRIMARY KEY DEFINITION */
 
-
-ALTER TABLE `permission_data`
+ALTER TABLE `permission`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `role_2_permission`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `usr_data`
+ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `usr_role`
+ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `track`
@@ -78,16 +77,16 @@ ALTER TABLE `track_history`
   ADD PRIMARY KEY (`id`);
 
 
-ALTER TABLE `permission_data`
+ALTER TABLE `permission`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 ALTER TABLE `role_2_permission`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
-ALTER TABLE `usr_data`
+ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
-ALTER TABLE `usr_role`
+ALTER TABLE `role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 ALTER TABLE `track`
@@ -96,3 +95,17 @@ ALTER TABLE `track`
 ALTER TABLE `track_history`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
+
+/* FOREIGN KEYS */
+/*
+ALTER TABLE user
+  ADD FOREIGN KEY (role_id) REFERENCES role(id);
+
+ALTER TABLE role_2_permission
+  ADD FOREIGN KEY (role_id) REFERENCES role(id);
+
+ALTER TABLE role_2_permission
+  ADD FOREIGN KEY (permission_id) REFERENCES permission(id);
+
+ALTER TABLE track
+  ADD FOREIGN KEY (track_history_id) REFERENCES track_history(id);*/

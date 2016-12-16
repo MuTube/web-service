@@ -8,8 +8,4 @@ class TrackHistoryDbHelper extends CommonDbHelper {
     public function getByYoutubeId($youtubeId) {
         return $this->fetch("SELECT * FROM track_history WHERE youtube_id = %s", [DbController::sanitizeQueryInput($youtubeId)]);
     }
-
-    protected function validateData($values) {
-        // HANDLE DATA VALIDATION
-    }
 }

@@ -18,12 +18,18 @@ class UserCommandController extends CommonCommandController {
                     $image = $this->params['files']['image'];
                 }
 
+                $passwordData = [
+                    'password' => $this->params['post']['password'],
+                    'password_confirmation' => $this->params['post']['password_confirmation'],
+                ];
+
                 $form->loadValues($this->params['post']);
-                $id = UserViewModel::add($form->getValues(), isset($image) ? $image : false);
+                $id = UserViewModel::add($form->getValues(), $passwordData, isset($image) ? $image : false);
 
                 MessageController::addFlashMessage('success', 'User successfully created with id "' . $id .'"');
             }
             catch(Exception $e) {
+                $e = new SoftException($e->getMessage());
                 ExceptionHandler::renderSoftException($e);
             }
 
@@ -56,9 +62,10 @@ class UserCommandController extends CommonCommandController {
                 $form->loadValues($this->params['post']);
                 UserViewModel::updateBy('id', $user['id'], $form->getValues(), isset($image) ? $image : false);
 
-                MessageController::addFlashMessage('success', 'User "' . $form->getValues()['usrname'] . '" successfully updated');
+                MessageController::addFlashMessage('success', 'User "' . $form->getValues()['username'] . '" successfully updated');
             }
             catch(Exception $e) {
+                $e = new SoftException($e->getMessage());
                 ExceptionHandler::renderSoftException($e);
             }
 
@@ -142,12 +149,12 @@ class UserCommandController extends CommonCommandController {
 //formHelper
 class UserFormHelper extends FormHelper {
     protected function defineFields() {
-        $this->fields = ['usrname', 'firstname', 'lastname', 'email', 'role_id'];
+        $this->fields = ['username', 'firstname', 'lastname', 'email', 'role_id'];
     }
 }
 
 class PasswordFormHelper extends FormHelper {
     protected function defineFields() {
-        $this->fields = ['currentPassword', 'newPassword', 'retypeNewPassword'];
+        $this->fields = ['currentPassword', 'newPassword', 'newPasswordConfirmation'];
     }
 }

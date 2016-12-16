@@ -5,9 +5,9 @@ class LoginCommandController extends CommonCommandController {
     public function defaultLoading() {
         if($this->user['valid']) $this->redirect('dashboard');
 
-        if(isset($this->params['post']['usrname']) && isset($this->params['post']['pswd'])) {
+        if(isset($this->params['post']['username']) && isset($this->params['post']['password'])) {
             try {
-                SessionController::login($this->params['post']['usrname'], $this->params['post']['pswd']);
+                SessionController::login($this->params['post']['username'], $this->params['post']['password']);
                 $this->redirect('dashboard');
             }
             catch(SoftException $e) {
@@ -16,6 +16,6 @@ class LoginCommandController extends CommonCommandController {
             }
         }
 
-        $this->setTemplate('login/form.html.twig');
+        $this->setTemplate('login/login.html.twig');
     }
 }

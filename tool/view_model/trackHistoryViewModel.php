@@ -37,6 +37,7 @@ class TrackHistoryViewModel {
         ];
 
         CurlController::downloadFileToDestination($trackHistoryData['thumbnailPath'], $newThumbnailFilePath);
+        self::validateData($newTrackHistoryData);
         return DbController::getTable('trackHistory')->create($newTrackHistoryData);
     }
 
@@ -51,7 +52,7 @@ class TrackHistoryViewModel {
 
         $trackData = YoutubeClient::getVideoDetailsForVideoId($youtubeId);
         $newThumbnailFilePath = "files/track_thumbnails/".$trackData['id']."_thumbnail.png";
-        $newTrack = array_merge([
+        $newTrackHistoryData = array_merge([
             'youtube_channel' => $trackData['youtube_channel'],
             'youtube_views' => $trackData['youtube_views'],
             'duration' => $trackData['duration'],
@@ -60,7 +61,8 @@ class TrackHistoryViewModel {
         ], $customData);
 
         CurlController::downloadFileToDestination($trackData['thumbnailPath'], $newThumbnailFilePath);
-        DbController::getTable('trackHistory')->create($newTrack);
+        self::validateData($newTrackHistoryData);
+        DbController::getTable('trackHistory')->create($newTrackHistoryData);
 
     }
 
@@ -71,6 +73,7 @@ class TrackHistoryViewModel {
             throw new Exception("No data provided");
         }
 
+        self::validateData($values);
         DbController::getTable('trackHistory')->updateBy($by, $identifier, $values);
     }
 
@@ -90,6 +93,23 @@ class TrackHistoryViewModel {
 
         if(($trackData = TrackViewModel::getBy('track_history_id', $trackHistoryData['id'])) != null) {
             TrackViewModel::removeBy('id', $trackData['id']);
+        }
+    }
+
+
+    // VALIDATION
+
+    protected static function validateData($data) {
+        if(array_key_exists('thumbnail_filepath', $data)) {
+            if(!FileManager::fileExistWithPath($data['thumbnail_filepath'])) {
+                throw new Exception("File given doesn't exists");
+            }
+        }
+
+        if(array_key_exists('year', $data) && $data['year'] != '') {
+            if(!is_numeric($data['year']) || strlen($data['year']) != 4) {
+                throw new Exception("The year should be a numeric value and should contain 4 numbers");
+            }
         }
     }
 }
