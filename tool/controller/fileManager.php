@@ -1,15 +1,7 @@
 <?php
 
 class FileManager {
-    public static function getLastDbArchive() {
-        $lastArchive = '';
-        foreach(scandir('config/database/archive') as $archive) {
-            if(!in_array($archive, ['.', '..']) && ($lastArchive == '' || explode('_', $archive)[0] > explode('_', $lastArchive)[0])) {
-                $lastArchive = $archive;
-            }
-        }
-        return $lastArchive;
-    }
+    // USER IMAGES
 
     public static function processUserImage($file, $oldFileName, $newFileName = false) {
         self::validateFile($file, ['png', 'jpg', 'jpeg', 'gif']);
@@ -23,29 +15,30 @@ class FileManager {
         self::uploadFile($file, $newPath);
     }
 
-    public static function savePngImageAtPath($image, $path) {
-        if(self::fileExistWithPath($path)) throw new Exception('file already exists');
-        imagepng($image, $path, 8);
-    }
 
-    public static function deleteFile($path) {
-        unlink($path);
+    // DB ARCHIVE
+
+    public static function getLastDbArchive() {
+        $lastArchive = '';
+        foreach(scandir('config/database/archive') as $archive) {
+            if(!in_array($archive, ['.', '..']) && ($lastArchive == '' || explode('_', $archive)[0] > explode('_', $lastArchive)[0])) {
+                $lastArchive = $archive;
+            }
+        }
+        return $lastArchive;
     }
 
     public static function fileExistWithPath($path) {
         return file_exists($path);
     }
 
-    public static function directoryExists($dir) {
-        return is_dir($dir);
-    }
 
-    protected static function replaceFile($basePath, $oldName, $newFile) {
-        if(self::fileExistWithPath($basePath . $oldName)) {
-            self::deleteFile($basePath . $oldName);
+    // BASE FILE SYSTEM METHODS
+
+    public static function deleteFile($path) {
+        if(self::fileExistWithPath($path)) {
+            unlink($path);
         }
-
-        self::uploadFile($newFile, $basePath);
     }
 
     protected static function uploadFile($file, $path) {
