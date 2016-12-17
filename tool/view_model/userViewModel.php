@@ -37,7 +37,7 @@ class UserViewModel {
             $newFileName = $id . '_' . $image['name'];
 
             FileManager::processUserImage($image, null, $newFileName);
-            $userTable->updateBy('id', $id, ['image_name' => $newFileName]);
+            $userTable->updateBy('id', $id, ['image_filepath' => 'files/user_image/' . $newFileName]);
         }
 
         return $id;
@@ -58,7 +58,7 @@ class UserViewModel {
             $oldFileName = empty($user['image_name']) ? $newFileName : $user['image_name'];
 
             FileManager::processUserImage($image, $oldFileName, $newFileName);
-            $userTable->updateBy('id', $user['id'], ['image_name' => $newFileName]);
+            $userTable->updateBy('id', $user['id'], ['image_filepath' => 'files/user_image/' . $newFileName]);
         }
     }
 
@@ -82,7 +82,7 @@ class UserViewModel {
         $userTable = DbController::getTable('user');
         $userData = $userTable->getBy($by, $identifier);
 
-        FileManager::deleteFile("files/user_image/" . $userData['image_name']);
+        FileManager::deleteFile("files/user_image/" . $userData['image_filepath']);
         $userTable->removeBy($by, $identifier);
     }
 

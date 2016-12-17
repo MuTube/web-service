@@ -23,13 +23,13 @@
                 {% endif %}
             </div>
         </div>
-        {% if user.image_name %}
+        {% if user.image_filepath %}
             <div class="row box-sm">
                 <div class="col-sm-4">
                     <p><strong>Image :</strong></p>
                 </div>
                 <div class="col-sm-8">
-                    <img src="/files/user_image/{{ user.image_name }}">
+                    <img src="/{{ user.image_filepath }}">
                 </div>
             </div>
         {% endif %}

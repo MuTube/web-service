@@ -24,7 +24,7 @@ INSERT INTO `role_2_permission` (`id`, `role_id`, `permission_id`) VALUES
 ;
 
 
-INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `username`, `password`, `api_key`, `role_id`, `image_name`) VALUES
+INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `username`, `password`, `api_key`, `role_id`, `image_filepath`) VALUES
   (1, 'Admin', '', '', 'admin', '$1$jORggZSK$VnSUkk6AHBCefFP8GfdVq0', '', 1, NULL),
   (2, 'Guest', '', '', 'guest', '$1$LZBZdNxO$lSv/kgNAUkw7Ps2B5dX1T.', '', 3, NULL)
 ;

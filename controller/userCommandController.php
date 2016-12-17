@@ -52,6 +52,7 @@ class UserCommandController extends CommonCommandController {
 
         $user = UserViewModel::getBy('id', $this->params['path']['id']);
         $form = new UserFormHelper($user);
+        $form->removeField('username');
 
         if(!empty($this->params['post'])) {
             try {
@@ -73,8 +74,7 @@ class UserCommandController extends CommonCommandController {
         }
 
         $this->data['formValues'] = $form->getValues();
-        $this->data['userId'] = $user['id'];
-        $this->data['userImageName'] = $user['image_name'];
+        $this->data['user'] = $user;
 
         $this->setTemplate('user/edit.html.twig');
     }
@@ -91,6 +91,7 @@ class UserCommandController extends CommonCommandController {
             MessageController::addFlashMessage('success', "Users ".explode(', ', $ids)." successfully removed");
         }
         catch(Exception $e) {
+            $e = new SoftException($e->getMessage());
             ExceptionHandler::renderSoftException($e);
         }
 
@@ -111,6 +112,7 @@ class UserCommandController extends CommonCommandController {
                 MessageController::addFlashMessage('success', 'password successfully updated');
             }
             catch(Exception $e) {
+                $e = new SoftException($e->getMessage());
                 ExceptionHandler::renderSoftException($e);
             }
 
@@ -129,6 +131,7 @@ class UserCommandController extends CommonCommandController {
             MessageController::addFlashMessage('success', 'Api key successfully reset');
         }
         catch(Exception $e) {
+            $e = new SoftException($e->getMessage());
             ExceptionHandler::renderSoftException($e);
         }
 
@@ -155,6 +158,6 @@ class UserFormHelper extends FormHelper {
 
 class PasswordFormHelper extends FormHelper {
     protected function defineFields() {
-        $this->fields = ['currentPassword', 'newPassword', 'newPasswordConfirmation'];
+        $this->fields = ['password', 'password_confirmation'];
     }
 }

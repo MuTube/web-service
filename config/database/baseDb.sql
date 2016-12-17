@@ -27,7 +27,7 @@ CREATE TABLE `user` (
   `password` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `api_key` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `role_id` int(11) NOT NULL,
-  `image_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
+  `image_filepath` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 

@@ -4,20 +4,25 @@
         <input type="file" id="userImage" name="image" class="form-control">
         {% if userImageName %}
             <div class="image-container">
-                <img src="/files/user_image/{{ userImageName }}" id="userImage" class="center-block" width="55%">
+                <img src="/{{ user.image_filepath }}" id="userImage" class="center-block" width="55%">
             </div>
         {% endif %}
     </div>
-    {% if userId %}
+    {% if user.id %}
         <div class="form-group">
             <label for="userId">ID :</label>
-            <input type="text" id="userId" class="form-control" value="{{ userId }}" disabled>
+            <input type="text" id="userId" class="form-control" value="{{ user.id }}" disabled>
+        </div>
+        <div class="form-group">
+            <label for="userUsername">Username :</label>
+            <input type="text" id="userUsername" name="username" class="form-control" value="{{ user.username }}" disabled>
+        </div>
+    {% else %}
+        <div class="form-group">
+            <label for="userUsername">Username :</label>
+            <input type="text" id="userUsername" name="username" class="form-control" value="{{ formValues.username }}">
         </div>
     {% endif %}
-    <div class="form-group">
-        <label for="userUsername">Username :</label>
-        <input type="text" id="userUsername" name="username" class="form-control" value="{{ formValues.username | default('') }}">
-    </div>
     <div class="form-group">
         <label for="userFirstname">Firstname :</label>
         <input type="text" id="userFirstname" name="firstname" class="form-control" value="{{ formValues.firstname | default('') }}">
@@ -30,7 +35,7 @@
         <label for="userEmail">Email adress :</label>
         <input type="email" id="userEmail" name="email" class="form-control" value="{{ formValues.email | default('') }}">
     </div>
-    {% if userId == false %}
+    {% if user.id == false %}
         <div class="form-group">
             <label for="userPassword">Password :</label>
             <input type="password" id="userPassword" name="password" class="form-control">
