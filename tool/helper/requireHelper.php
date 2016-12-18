@@ -40,13 +40,6 @@ class RequireHelper {
             }
         }
 
-        //exception
-        foreach(scandir('tool/exception') as $file) {
-            if($file != '.' and $file != '..') {
-                require 'tool/exception/' . $file;
-            }
-        }
-
         //commandController
         require 'controller/commonCommandController.php';
     }

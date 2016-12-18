@@ -20,7 +20,7 @@ class SessionController {
                 ];
             }
         } catch (Exception $e) {
-            throw new SoftException($e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 

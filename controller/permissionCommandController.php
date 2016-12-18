@@ -14,7 +14,7 @@ class PermissionCommandController extends CommonCommandController {
                 MessageController::addFlashMessage('success', 'Role [' . $roleId . '] successfully updated');
             }
             catch(Exception $e) {
-                ExceptionHandler::renderSoftException($e);
+                ExceptionHandler::renderFlashException($e);
             }
         }
 
@@ -33,7 +33,7 @@ class PermissionCommandController extends CommonCommandController {
                 MessageController::addFlashMessage('success', 'Role ['.$form->getValues()['name'].'] successfully created');
             }
             catch(Exception $e) {
-                ExceptionHandler::renderSoftException($e);
+                ExceptionHandler::renderFlashException($e);
             }
         }
 
@@ -49,7 +49,7 @@ class PermissionCommandController extends CommonCommandController {
             MessageController::addFlashMessage('success', 'Role [' . $roleId . '] sucessfully removed');
         }
         catch(Exception $e) {
-            ExceptionHandler::renderSoftException($e);
+            ExceptionHandler::renderFlashException($e);
         }
 
         $this->redirect('settings?w=permissions');

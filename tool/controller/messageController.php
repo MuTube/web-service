@@ -12,6 +12,6 @@ class MessageController {
             }
         }
 
-        if(!isset($_SESSION['flashMessage'][$type])) throw new HardException("flashMessage Error :", "flashMessage invalid type");
+        if(!isset($_SESSION['flashMessage'][$type])) throw new Exception("flashMessage Error :", "flashMessage invalid type");
     }
 }

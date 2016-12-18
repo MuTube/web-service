@@ -29,8 +29,7 @@ class UserCommandController extends CommonCommandController {
                 MessageController::addFlashMessage('success', 'User successfully created with id "' . $id .'"');
             }
             catch(Exception $e) {
-                $e = new SoftException($e->getMessage());
-                ExceptionHandler::renderSoftException($e);
+                ExceptionHandler::renderFlashException($e);
             }
 
             $this->redirect('user');
@@ -66,8 +65,7 @@ class UserCommandController extends CommonCommandController {
                 MessageController::addFlashMessage('success', 'User "' . $form->getValues()['username'] . '" successfully updated');
             }
             catch(Exception $e) {
-                $e = new SoftException($e->getMessage());
-                ExceptionHandler::renderSoftException($e);
+                ExceptionHandler::renderFlashException($e);
             }
 
             $this->redirect('user/' . $user['id'] . '/edit');
@@ -91,8 +89,7 @@ class UserCommandController extends CommonCommandController {
             MessageController::addFlashMessage('success', "Users ".explode(', ', $ids)." successfully removed");
         }
         catch(Exception $e) {
-            $e = new SoftException($e->getMessage());
-            ExceptionHandler::renderSoftException($e);
+            ExceptionHandler::renderFlashException($e);
         }
 
         $this->redirect('user');
@@ -112,8 +109,7 @@ class UserCommandController extends CommonCommandController {
                 MessageController::addFlashMessage('success', 'password successfully updated');
             }
             catch(Exception $e) {
-                $e = new SoftException($e->getMessage());
-                ExceptionHandler::renderSoftException($e);
+                ExceptionHandler::renderFlashException($e);
             }
 
             $this->redirect('user/'.$userId.'/changePassword');
@@ -131,8 +127,7 @@ class UserCommandController extends CommonCommandController {
             MessageController::addFlashMessage('success', 'Api key successfully reset');
         }
         catch(Exception $e) {
-            $e = new SoftException($e->getMessage());
-            ExceptionHandler::renderSoftException($e);
+            ExceptionHandler::renderFlashException($e);
         }
 
         $this->redirect('user/profile');

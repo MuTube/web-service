@@ -14,7 +14,7 @@ class DbController {
             self::$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         }
         catch(Exception $e) {
-             throw new Exception("Mysql connexion error");
+             throw new FatalException("DB Connexion Error", "Mysql connexion error");
         }
     }
 
@@ -24,7 +24,7 @@ class DbController {
             return new $className();
         }
         catch(Exception $e) {
-            throw new HardException("DB Error :", $e->getMessage());
+            throw new Exception("DB Error :", $e->getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ class DbController {
             self::$pdo->exec($query);
         }
         catch(Exception $e) {
-            throw new HardException("DB Error :", $e->getMessage());
+            throw new Exception("DB Error :", $e->getMessage());
         }
     }
 
@@ -49,7 +49,7 @@ class DbController {
             return $result;
         }
         catch(Exception $e) {
-            throw new HardException("DB Error :", $e->getMessage());
+            throw new Exception("DB Error :", $e->getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ class DbController {
             return $result;
         }
         catch(Exception $e) {
-            throw new HardException("DB Error :", $e->getMessage());
+            throw new Exception("DB Error :", $e->getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ class DbController {
             }
         }
         catch(Exception $e) {
-            throw new HardException("DB Error :", $e->getMessage());
+            throw new Exception("DB Error :", $e->getMessage());
         }
 
         return false;

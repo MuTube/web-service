@@ -69,7 +69,7 @@ class RoleViewModel {
     protected static function validateData($data) {
         if(array_key_exists('name', $data)) {
             if(empty($data['name'])) {
-                throw new SoftException('A name is required');
+                throw new Exception('A name is required');
             }
         }
     }

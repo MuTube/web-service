@@ -10,8 +10,8 @@ class LoginCommandController extends CommonCommandController {
                 SessionController::login($this->params['post']['username'], $this->params['post']['password']);
                 $this->redirect('dashboard');
             }
-            catch(SoftException $e) {
-                ExceptionHandler::renderSoftException($e);
+            catch(Exception $e) {
+                ExceptionHandler::renderFlashException($e);
                 $this->redirect('admin-login');
             }
         }

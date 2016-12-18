@@ -15,7 +15,7 @@ class TrackCommandController extends CommonCommandController {
             $this->data['track'] = TrackHistoryViewModel::getBy('id', $this->params['path']['id']);
         }
         catch(Exception $e) {
-            throw new HardException('Cannot get the track :', $e->getMessage());
+            throw new FatalException('Cannot get the track :', $e->getMessage());
         }
 
         $this->setTemplate('track/read.html.twig');
@@ -33,7 +33,7 @@ class TrackCommandController extends CommonCommandController {
             MessageController::addFlashMessage('success', "Tracks ".explode(', ', $ids)." successfully removed");
         }
         catch(Exception $e) {
-            ExceptionHandler::renderSoftException($e);
+            ExceptionHandler::renderFlashException($e);
         }
 
         $this->redirect('track');
@@ -57,7 +57,7 @@ class TrackCommandController extends CommonCommandController {
                 MessageController::addFlashMessage('success', 'Track "' . $form->getValues()['title'] . '" successfully updated');
             }
             catch(Exception $e) {
-                ExceptionHandler::renderSoftException($e);
+                ExceptionHandler::renderFlashException($e);
             }
 
             $this->redirect('track');
@@ -89,7 +89,7 @@ class TrackCommandController extends CommonCommandController {
                 $result = YoutubeQuickDataClientClient::getYoutubeAutocompleteDataForSearchTerm($searchTerm);
                 $this->renderJSON($result);
             } catch(Exception $e) {
-                ExceptionHandler::renderSoftException($e);
+                ExceptionHandler::renderFlashException($e);
                 $this->redirect('track');
             }
         }
@@ -106,7 +106,7 @@ class TrackCommandController extends CommonCommandController {
                 $this->data['track'] = YoutubeClient::getVideoDetailsForVideoId($this->params['get']['yid']);
             }
             catch(Exception $e) {
-                ExceptionHandler::renderSoftException($e);
+                ExceptionHandler::renderFlashException($e);
                 $this->redirect('track/add');
             }
         }
@@ -121,7 +121,7 @@ class TrackCommandController extends CommonCommandController {
                 $this->redirect('track');
             }
             catch(Exception $e) {
-                ExceptionHandler::renderSoftException(new SoftException($e->getMessage()));
+                ExceptionHandler::renderFlashException($e);
                 $this->redirect('track/register?yid='.$this->params['post']['id']);
             }
         }

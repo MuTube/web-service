@@ -54,6 +54,8 @@ class FileManager {
             }
         }
 
-        if($validFileType == 'notFound') throw new SoftException('Only this types are allowed for file : ' . implode(', ', $types));
+        if($validFileType == 'notFound') {
+            throw new Exception('Only this types are allowed for file : ' . implode(', ', $types));
+        }
     }
 }

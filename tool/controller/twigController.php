@@ -15,11 +15,11 @@ class TwigController {
 
     public function renderTemplateWithPath($templatePath, $data) {
         try {
-            $tempate = $this->twig->loadTemplate($templatePath);
-            echo $tempate->render($data);
+            $template = $this->twig->loadTemplate($templatePath);
+            echo $template->render($data);
         }
         catch(Exception $e) {
-            throw new HardException("Twig Error :", $e->getMessage());
+            throw new FatalException("Twig Error :", $e->getMessage());
         }
     }
 
@@ -29,7 +29,7 @@ class TwigController {
             return $template->render($data);
         }
         catch(Exception $e) {
-            throw new HardException("Twig Error :", $e->getMessage());
+            throw new Exception("Twig Error :", $e->getMessage());
         }
     }
 
@@ -101,7 +101,7 @@ class TwigController {
 
         foreach($functions as $name => $baseOptions) {
             $this->twig->addFunction(new Twig_SimpleFunction($name, function($id = -1) use ($baseOptions) {
-                if($id == -1) throw new HardException('Twig Function Error :', 'Entity id is not defined');
+                if($id == -1) throw new Exception('Twig Function Error :', 'Entity id is not defined');
 
                 $viewModelName = ucfirst($baseOptions['viewModel']) . "ViewModel";
                 $entity = $viewModelName::getBy('id', $id);

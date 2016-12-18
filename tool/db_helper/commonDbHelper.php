@@ -72,7 +72,7 @@ class CommonDbHelper {
             DbController::execQuery($query);
         }
         else {
-            throw new HardException("Runtime Error :", "Not enough or to much parameters");
+            throw new Exception("Query build Error :", "Not enough or to much parameters");
         }
     }
     
@@ -82,7 +82,7 @@ class CommonDbHelper {
             return DbController::fetch($query);
         }
         else {
-            throw new HardException("Runtime Error :", "Not enough or to much parameters");
+            throw new Exception("Query build Error :", "Not enough or to much parameters");
         }
     }
 
@@ -92,7 +92,7 @@ class CommonDbHelper {
             return DbController::fetchAll($query);
         }
         else {
-            throw new HardException("Runtime Error :", "Not enough or to much parameters");
+            throw new Exception("Query build Error :", "Not enough or to much parameters");
         }
     }
 }
