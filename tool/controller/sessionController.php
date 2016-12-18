@@ -3,24 +3,28 @@
 class SessionController {
 
     public static function login($username, $password) {
-        try {
-            if(self::checkAuthentication($username, $password)) {
-                $userData = UserHelper::getDataForCurrentUserOrUsername($username);
+        if(self::checkAuthentication($username, $password)) {
+            $userData = UserHelper::getDataForCurrentUserOrUsername($username);
 
-                $_SESSION['user'] = [
-                    'username' => $username,
-                    'uid' => $userData['id'],
-                    'userData' => [
-                        'firstName' => $userData['firstname'],
-                        'lastName' => $userData['lastname'],
-                        'email' => $userData['email']
-                    ],
-                    'userPermissions' => $userData['permissions'],
-                    'userLocation' => $userData['userLocation']
-                ];
+            $ok = false;
+            foreach($userData['permissions'] as $userPermission) {
+                if($userPermission['name'] == 'user_login') {
+                    $ok = true;
+                }
             }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            if(!$ok) throw new Exception('This user has not the permission to login into the interface');
+
+            $_SESSION['user'] = [
+                'username' => $username,
+                'uid' => $userData['id'],
+                'userData' => [
+                    'firstName' => $userData['firstname'],
+                    'lastName' => $userData['lastname'],
+                    'email' => $userData['email']
+                ],
+                'userPermissions' => $userData['permissions'],
+                'userLocation' => $userData['userLocation']
+            ];
         }
     }
 
