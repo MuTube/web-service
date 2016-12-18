@@ -15,11 +15,11 @@ class TwigController {
 
     public function renderTemplateWithPath($templatePath, $data) {
         try {
-            $tempate = $this->twig->loadTemplate($templatePath);
-            echo $tempate->render($data);
+            $template = $this->twig->loadTemplate($templatePath);
+            echo $template->render($data);
         }
         catch(Exception $e) {
-            throw new HardException("Twig Error :", $e->getMessage());
+            throw new FatalException("Twig Error :", $e->getMessage());
         }
     }
 
@@ -29,7 +29,7 @@ class TwigController {
             return $template->render($data);
         }
         catch(Exception $e) {
-            throw new HardException("Twig Error :", $e->getMessage());
+            throw new Exception("Twig Error :", $e->getMessage());
         }
     }
 
@@ -65,10 +65,8 @@ class TwigController {
 
     protected function addSelectorFunctions() {
         $functions = [
-            'roleSelector' => ['table' => 'userRole'],
-            'permissionSelector' => ['table' => 'permission'],
-            'contactSelector' => ['table' => 'contact'],
-            'contactCategorySelector' => ['table' => 'contactCategory']
+            'roleSelector' => ['viewModel' => 'role'],
+            'permissionSelector' => ['viewModel' => 'permission']
         ];
 
         foreach($functions as $name => $baseOptions) {
@@ -85,8 +83,8 @@ class TwigController {
 
                 $options = array_merge($defaultOptions, $options);
 
-                $table = DbController::getTable($baseOptions['table']);
-                $selectOptions = $table->getSelectorData();
+                $viewModelName = ucfirst($baseOptions['viewModel']) . "ViewModel";
+                $selectOptions = $viewModelName::getSelectorData();
 
                 $options['selectOptions'] = $selectOptions;
                 $options['selected'] = is_array($options['selected']) ? $options['selected'] : [$options['selected']];
@@ -98,21 +96,20 @@ class TwigController {
 
     protected function addLinkFunctions() {
         $functions = [
-            'userLink' => ['table' => 'user'],
-            'contactLink' => ['table' => 'contact']
+            'userLink' => ['viewModel' => 'user']
         ];
 
         foreach($functions as $name => $baseOptions) {
             $this->twig->addFunction(new Twig_SimpleFunction($name, function($id = -1) use ($baseOptions) {
-                if($id == -1) throw new HardException('Twig Function Error :', 'Entity id is not defined');
+                if($id == -1) throw new Exception('Twig Function Error :', 'Entity id is not defined');
 
-                $table = DbController::getTable($baseOptions['table']);
-                $entity = $table->getById($id);
-                $entityType = $baseOptions['table'];
+                $viewModelName = ucfirst($baseOptions['viewModel']) . "ViewModel";
+                $entity = $viewModelName::getBy('id', $id);
+                $entityType = $baseOptions['viewModel'];
 
                 //define displayed values
-                if($entityType == 'user') $entity['displayedName'] = $entity['usrname'];
-                elseif($entityType == 'contact') $entity['displayedName'] = $entity['firstname'] . ' ' . $entity['lastame'];
+                if($entityType == 'user') $entity['displayedName'] = $entity['username'];
+                elseif($entityType == 'contact') $entity['displayedName'] = $entity['firstname'] . ' ' . $entity['lastname'];
 
                 return $this->getRenderReadyTemplate('common/twigLink.html.twig', [
                     'entityType' => $entityType,

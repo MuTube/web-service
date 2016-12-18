@@ -2,21 +2,29 @@
 
 class SessionController {
 
-    public static function login($usrname, $pswd) {
-        try {
-            if(self::checkAuthentication($usrname, $pswd)) {
-                $usrData = UserHelper::getDataForUsername($usrname);
+    public static function login($username, $password) {
+        if(self::checkAuthentication($username, $password)) {
+            $userData = UserHelper::getDataForCurrentUserOrUsername($username);
 
-                $_SESSION['user'] = [
-                    'username' => $usrname,
-                    'uid' => $usrData['id'],
-                    'userData' => ['firstName' => $usrData['firstname'], 'lastName' => $usrData['lastname'], 'email' => $usrData['email']],
-                    'userPermissions' => $usrData['permissions'],
-                    'userLocation' => $usrData['userLocation']
-                ];
+            $ok = false;
+            foreach($userData['permissions'] as $userPermission) {
+                if($userPermission['name'] == 'user_login') {
+                    $ok = true;
+                }
             }
-        } catch (Exception $e) {
-            throw new SoftException($e->getMessage());
+            if(!$ok) throw new Exception('This user has not the permission to login into the interface');
+
+            $_SESSION['user'] = [
+                'username' => $username,
+                'uid' => $userData['id'],
+                'userData' => [
+                    'firstName' => $userData['firstname'],
+                    'lastName' => $userData['lastname'],
+                    'email' => $userData['email']
+                ],
+                'userPermissions' => $userData['permissions'],
+                'userLocation' => $userData['userLocation']
+            ];
         }
     }
 
@@ -36,28 +44,25 @@ class SessionController {
             return false;
         }
 
-        $userTable = DbController::getTable('user');
         $sessionData = [
             "id" => $_SESSION["user"]["uid"],
-            "usrname" => $_SESSION["user"]["username"],
+            "username" => $_SESSION["user"]["username"],
             "firstname" => $_SESSION["user"]["userData"]["firstName"],
             "lastname" => $_SESSION["user"]["userData"]["lastName"],
         ];
 
-        return !empty($userTable->getForFullUserData($sessionData));
+        return !empty(UserViewModel::getByMultipleValues($sessionData));
     }
 
     public static function checkAPIAuthentification($apiKey) {
-        $userTable = DbController::getTable('user');
-
-        if((!$userTable->getForAPIKey($apiKey) || $apiKey == "") && !self::checkSessionValidity()) {
+        if(($apiKey == "" || !UserViewModel::getBy('api_key', $apiKey)) && !self::checkSessionValidity()) {
             throw new Exception("Invalid API Key");
         }
     }
 
-    public static function checkAuthentication($username, $pswd) {
-        if($user = DbController::getTable('user')->getForUsername($username)) {
-            if(hash_equals($user['pswd'], crypt($pswd, $user['pswd']))) {
+    public static function checkAuthentication($username, $password) {
+        if($user = UserViewModel::getBy('username', $username)) {
+            if(hash_equals($user['password'], crypt($password, $user['password']))) {
                 return true;
             }
             else {
@@ -69,8 +74,8 @@ class SessionController {
         }
     }
 
-    public static function passwordEncryption($pswd) {
-        return crypt($pswd);
+    public static function passwordEncryption($password) {
+        return crypt($password);
     }
 
     public static function generateAPIKey() {

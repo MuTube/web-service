@@ -24,8 +24,4 @@ class TrackDbHelper extends CommonDbHelper {
 
         $this->execQuery($query, []);
     }
-
-    protected function validateData($values) {
-        // HANDLE DATA VALIDATION
-    }
 }

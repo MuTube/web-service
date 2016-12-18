@@ -27,6 +27,14 @@ class FormHelper {
         return $this->values;
     }
 
+    public function removeField($field) {
+        foreach ($this->fields as $index => $existingField) {
+            if($existingField == $field) {
+                unset($this->fields[$index]);
+            }
+        }
+    }
+
     protected function defineFields() {
         $this->fields = [];
     }

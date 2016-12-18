@@ -22,7 +22,6 @@ class DataHelper {
         ];
 
         $data['baseUrl'] = 'http://' . $_SERVER['SERVER_NAME'];
-        $data['currentUri'] = $_SERVER['REQUEST_URI'];
         $data['currentDate'] = date('d.m.Y');
         $data['isValidUser'] = SessionController::checkSessionValidity();
         $data['userPermissions'] = $data['isValidUser'] ? $_SESSION['user']['userPermissions'] : [];

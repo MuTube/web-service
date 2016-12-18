@@ -61,43 +61,8 @@ class ApiCommandController extends CommonCommandController {
             throw new Exception("Invalid youtube id");
         }
 
-        $trackHistoryTable = DbController::getTable('trackHistory');
-        $trackTable = DbController::getTable('track');
-        $newMP3FilePath = "files/track_files/" . $youtubeId . ".mp3";
-
-        if(($existingTrackData = $trackTable->getByMP3FilePath($newMP3FilePath)) == null && !FileManager::fileExistWithPath($newMP3FilePath)) {
-            $mp3DownloadURL = Youtubeinmp3Client::getMP3DownloadURLWithYoutubeID($youtubeId);
-            CurlController::downloadFileToDestination($mp3DownloadURL, $newMP3FilePath);
-
-            if(($existingTrackHistoryData = $trackHistoryTable->getByYoutubeId($youtubeId)) == null) {
-                $trackHistoryData = YoutubeClient::getVideoDetailsForVideoId($youtubeId);
-                $newThumbnailFilePath = "files/track_thumbnails/".$youtubeId."_thumbnail.png";
-                $newTrackHistoryData = [
-                    'title' => $trackHistoryData['title'],
-                    'artist' => '',
-                    'album' => '',
-                    'year' => '',
-                    'youtube_channel' => $trackHistoryData['youtube_channel'],
-                    'youtube_views' => $trackHistoryData['youtube_views'],
-                    'duration' => $trackHistoryData['duration'],
-                    'youtube_id' => $trackHistoryData['id'],
-                    'thumbnail_filepath' => $newThumbnailFilePath
-                ];
-
-                CurlController::downloadFileToDestination($trackHistoryData['thumbnailPath'], $newThumbnailFilePath);
-                $trackHistoryId = $trackHistoryTable->create($newTrackHistoryData);
-            }
-            else {
-                $trackHistoryId = $existingTrackHistoryData['id'];
-            }
-
-
-            $newTrackData = [
-                'track_history_id' => $trackHistoryId,
-                'mp3_filepath' => $newMP3FilePath,
-            ];
-
-            $trackId = $trackTable->create($newTrackData);
+        if(($existingTrackData = TrackViewModel::getBy('mp3_filepath', "files/track_files/" . $youtubeId . ".mp3")) == null) {
+            $trackId = TrackViewModel::addWithYoutubeId($youtubeId);
         }
         else {
             $trackId = $existingTrackData['id'];
@@ -113,10 +78,10 @@ class ApiCommandController extends CommonCommandController {
             throw new Exception("Invalid youtube id");
         }
 
-        $trackData = DbController::getTable('trackHistory')->getByYoutubeId($youtubeId);
+        $trackData = TrackHistoryViewModel::getBy('youtube_id', $youtubeId);
 
         if($trackData == null) {
-            throw new Exception("Invalid youtube id");
+            throw new Exception("Track with youtube id " . $youtubeId . " is not registered at the moment");
         }
 
         unset($trackData['id']);
@@ -139,32 +104,12 @@ class ApiCommandController extends CommonCommandController {
             throw new Exception("No track data");
         }
 
-        $trackHistoryTable = DbController::getTable('trackHistory');
-
-        if(($existingTrackHistoryData = $trackHistoryTable->getByYoutubeId($youtubeId)) == null) {
-            if(($youtubeTrackData = YoutubeClient::getVideoDetailsForVideoId($youtubeId)) == null) {
-                throw new Exception("Invalid youtube id");
-            }
-
-            $newThumbnailFilePath = "files/track_thumbnails/".$youtubeId."_thumbnail.png";
-            $newTrackHistoryData = [
-                'title' => isset($this->additionalParams['title']) ? $this->additionalParams['title'] : $youtubeTrackData['title'],
-                'artist' => isset($this->additionalParams['artist']) ? $this->additionalParams['artist'] : "",
-                'album' =>isset($this->additionalParams['album']) ? $this->additionalParams['album'] : "",
-                'year' => isset($this->additionalParams['year']) ? $this->additionalParams['year'] : "",
-                'youtube_channel' => $youtubeTrackData['youtube_channel'],
-                'youtube_views' => $youtubeTrackData['youtube_views'],
-                'duration' => $youtubeTrackData['duration'],
-                'youtube_id' => $youtubeTrackData['id'],
-                'thumbnail_filepath' => $newThumbnailFilePath
-            ];
-
-            CurlController::downloadFileToDestination($youtubeTrackData['thumbnailPath'], $newThumbnailFilePath);
-            $trackHistoryId = $trackHistoryTable->create($newTrackHistoryData);
+        if(($existingTrackHistoryData = TrackHistoryViewModel::getBy('youtube_id', $youtubeId)) == null) {
+            $trackHistoryId = TrackHistoryViewModel::addWithYoutubeId($youtubeId);
         }
         else {
+            TrackHistoryViewModel::updateBy('youtube_id', $youtubeId, $this->additionalParams);
             $trackHistoryId = $existingTrackHistoryData['id'];
-            $trackHistoryTable->updateById($trackHistoryId, $this->additionalParams);
         }
 
         return "Track data with id " . $trackHistoryId . " successfully pushed";

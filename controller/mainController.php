@@ -29,19 +29,14 @@ class MainController {
             $this->processCommand();
             $this->render();
         }
-        catch(HardException $e) {
-            $outputData = ExceptionHandler::renderHardException($e);
+        catch(FatalException $e) {
+            $outputData = ExceptionHandler::getRenderDataForFatalException($e);
             $this->renderException($outputData);
         }
     }
 
     private function prepare() {
-        try {
-            DbController::load();
-        } catch (Exception $e) {
-            throw new HardException('DB Error :', $e->getMessage());
-        }
-
+        DbController::load();
         $this->routing();
         $this->getData();
     }

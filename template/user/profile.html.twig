@@ -6,9 +6,9 @@
     <div class="container container-page">
         <div class="page-header">
             <div class="media">
-                {% if currentUser.image_name %}
+                {% if currentUser.image_filepath %}
                     <div class="media-left">
-                        <div class="icon icon-lg" style="background-image: url('/files/user_image/{{ currentUser.image_name }}')"></div>
+                        <div class="icon icon-lg" style="background-image: url('/{{ currentUser.image_filepath }}')"></div>
                     </div>
                 {% endif %}
                 <div class="media-body">
@@ -26,7 +26,7 @@
                         <tbody>
                             <tr>
                                 <th width="30%">Username :</th>
-                                <td>{{ currentUser.usrname }}</td>
+                                <td>{{ currentUser.username }}</td>
                             </tr>
                             <tr>
                                 <th>Firstname :</th>
@@ -53,12 +53,12 @@
                     </div>
                     <form class="panel-body" id="password-form" method="post" action="/user/{{ currentUser.id }}/changePassword">
                         <div class="form-group">
-                            <label for="newPassword">New password :</label>
-                            <input type="password" name="newPassword" id="newPassword" class="form-control">
+                            <label for="password">New password :</label>
+                            <input type="password" name="password" id="password" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="retypeNewPassword">Retype new password :</label>
-                            <input type="password" name="retypeNewPassword" id="retypeNewPassword" class="form-control">
+                            <label for="password_confirmation">Retype new password :</label>
+                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
                         </div>
                         <div class="form-group submit text-center">
                             <input type="submit" value="Change" class="btn btn-primary btn-lg">

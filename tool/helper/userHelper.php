@@ -2,12 +2,13 @@
 
 class UserHelper {
 
-    public static function getDataForUsername($usrname) {
-        $userTable = DbController::getTable('user');
+    public static function getDataForCurrentUserOrUsername($username = false) {
+        $username = !$username ? $_SESSION['user']['username'] : $username;
+        $userData = UserViewModel::getBy('username', $username);
 
-        $userData = $userTable->getForUsername($usrname);
         $userData['permissions'] = UserHelper::getPermissionsForCurrentUserOrUid($userData['id']);
-        $userData['userLocation'] = IpinfoClient::getUserLocation();
+        //$userData['userLocation'] = IpinfoClient::getUserLocation();
+        $userData['userLocation'] = [];
 
         return $userData;
     }
@@ -15,7 +16,7 @@ class UserHelper {
     public static function getPermissionsForCurrentUserOrUid($uid = false) {
         $uid = !$uid ? $_SESSION['user']['uid'] : $uid;
 
-        $staticPermissions = DbController::getTable('user')->getPermissionsForUid($uid);
+        $staticPermissions = UserViewModel::getPermissionsBy('id', $uid);
         $dynamicPermissions = self::getDynamicPermissionsForUid($uid);
 
         return array_merge($staticPermissions, $dynamicPermissions);

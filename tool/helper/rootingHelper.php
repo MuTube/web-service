@@ -28,7 +28,7 @@ class RoutingHelper {
             }
         }
 
-        throw new HardException('Error 404 :', "The requested page (/" . $path . ") doesn't exist...");
+        throw new FatalException('Error 404 :', "The requested page (/" . $path . ") doesn't exist...");
     }
 
     public static function validateCommandForUser($command) {

@@ -92,7 +92,7 @@ class CommonCommandController {
             }
         }
 
-        if(!$isAllowed) throw new HardException('Access Denied :', 'You are not allowed to see this page. If you reallly need the access right, please contact the webmaster...');
+        if(!$isAllowed) throw new FatalException('Access Denied', 'You are not allowed to see this page. If you reallly need the access right, please contact the webmaster...');
     }
 
     // to define in each commandController

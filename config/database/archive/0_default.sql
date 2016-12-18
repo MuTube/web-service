@@ -1,4 +1,4 @@
-INSERT INTO `permission_data` (`id`, `name`, `description`) VALUES
+INSERT INTO `permission` (`id`, `name`, `description`) VALUES
   (1, 'user_management', 'Allow to manage the users'),
   (2, 'settings_management', 'Allow to manage the settings'),
   (3, 'settings_permissions_edit', 'Allow to edit the permission settings'),
@@ -24,13 +24,13 @@ INSERT INTO `role_2_permission` (`id`, `role_id`, `permission_id`) VALUES
 ;
 
 
-INSERT INTO `usr_data` (`id`, `firstname`, `lastname`, `email`, `usrname`, `pswd`, `api_key`, `role_id`, `image_name`) VALUES
+INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `username`, `password`, `api_key`, `role_id`, `image_filepath`) VALUES
   (1, 'Admin', '', '', 'admin', '$1$jORggZSK$VnSUkk6AHBCefFP8GfdVq0', '', 1, NULL),
   (2, 'Guest', '', '', 'guest', '$1$LZBZdNxO$lSv/kgNAUkw7Ps2B5dX1T.', '', 3, NULL)
 ;
 
 
-INSERT INTO `usr_role` (`id`, `name`) VALUES
+INSERT INTO `role` (`id`, `name`) VALUES
   (1, 'admin'),
   (2, 'user'),
   (3, 'guest')

@@ -26,17 +26,17 @@ class RequireHelper {
             }
         }
 
+        //viewModel
+        foreach(scandir('tool/view_model') as $file) {
+            if($file != '.' and $file != '..') {
+                require 'tool/view_model/' . $file;
+            }
+        }
+
         //dbHelper
         foreach(scandir('tool/db_helper') as $file) {
             if($file != '.' and $file != '..') {
                 require 'tool/db_helper/' . $file;
-            }
-        }
-
-        //exception
-        foreach(scandir('tool/exception') as $file) {
-            if($file != '.' and $file != '..') {
-                require 'tool/exception/' . $file;
             }
         }
 
