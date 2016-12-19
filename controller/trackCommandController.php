@@ -131,6 +131,13 @@ class TrackCommandController extends CommonCommandController {
 
         $this->setTemplate('track/register.html.twig');
     }
+
+    public function downloadMP3() {
+        $track = TrackViewModel::getBy('id', $this->params['path']['id']);
+        $trackMP3Filepath = $track['mp3_filepath'];
+
+        $this->forceDownload($trackMP3Filepath);
+    }
 }
 
 //formHelper
