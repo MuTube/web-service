@@ -4,11 +4,12 @@ class TrackHistoryViewModel {
     // GET
 
     public static function getBy($by, $identifier) {
-        if(empty($identifier)) {
-            throw new Exception("No " . $by . " provided");
+        if(($trackHistory = DbController::getTable('trackHistory')->getBy($by, $identifier)) != null) {
+            return $trackHistory;
         }
-
-        return DbController::getTable('trackHistory')->getBy($by, $identifier);
+        else {
+            throw new Exception("Track history for " . $by . " '" . $identifier . "' not found.");
+        }
     }
 
     public static function getList() {
@@ -69,8 +70,8 @@ class TrackHistoryViewModel {
     // UPDATE
 
     public static function updateBy($by, $identifier, $values) {
-        if(empty($identifier)) {
-            throw new Exception("No data provided");
+        if(($trackHistory = DbController::getTable('trackHistory')->getBy($by, $identifier)) == null) {
+            throw new Exception("Track history for " . $by . " '" . $identifier . "' not found.");
         }
 
         self::validateData($values);
@@ -81,8 +82,8 @@ class TrackHistoryViewModel {
     // REMOVE
 
     public static function removeBy($by, $identifier) {
-        if(empty($identifier)) {
-            throw new Exception("No " . $by . " provided");
+        if(($trackHistory = DbController::getTable('trackHistory')->getBy($by, $identifier)) == null) {
+            throw new Exception("Track history for " . $by . " '" . $identifier . "' not found.");
         }
 
         $trackHistoryTable = DbController::getTable('trackHistory');

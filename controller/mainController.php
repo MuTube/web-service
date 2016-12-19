@@ -46,8 +46,14 @@ class MainController {
         $className = ucfirst(strtolower($this->routingData['command'])) . 'CommandController';
         $method = $this->routingData['method'] == 'default' ? '' : $this->routingData['method'];
 
-        $controller = new $className($method, $this->data);
-        $controller->load();
+        try {
+            $controller = new $className($method, $this->data);
+            $controller->load();
+        }
+        catch(Exception $e) {
+            throw new FatalException("Command loading error :", $e->getMessage());
+        }
+
 
         $this->output = $controller->getOutput();
     }

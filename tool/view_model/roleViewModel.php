@@ -4,11 +4,12 @@ class RoleViewModel {
     // GET
 
     public static function getBy($by, $identifier) {
-        if(empty($identifier)) {
-            throw new Exception("No " . $by . " provided");
+        if(($role = DbController::getTable('role')->getBy($by, $identifier)) != null) {
+            return $role;
         }
-
-        return DbController::getTable('role')->getBy($by, $identifier);
+        else {
+            throw new Exception("Role for " . $by . " '" . $identifier . "' not found.");
+        }
     }
 
     public static function getList() {
@@ -45,6 +46,10 @@ class RoleViewModel {
     // UPDATE
 
     public static function updatePermissionsBy($by, $identifier, $permissionIds) {
+        if(($trackHistory = DbController::getTable('role')->getBy($by, $identifier)) == null) {
+            throw new Exception("Role for " . $by . " '" . $identifier . "' not found.");
+        }
+
         DbController::getTable('role')->updatePermissionsBy($by, $identifier, $permissionIds);
     }
 
@@ -52,15 +57,12 @@ class RoleViewModel {
     // REMOVE
 
     public static function removeBy($by, $identifier) {
-        if(empty($identifier)) {
-            throw new Exception("No " . $by . " provided");
+        if(($role = DbController::getTable('role')->getBy($by, $identifier)) == null) {
+            throw new Exception("Role for " . $by . " '" . $identifier . "' not found.");
         }
 
-        $roleTable = DbController::getTable('role');
-        $roleId = $roleTable->getBy($by, $identifier)['id'];
-
-        $roleTable->removeBy('id', $roleId);
-        UserViewModel::removeRoleFromUsersWithRoleId($roleId);
+        DbController::getTable('role')->removeBy('id', $role['id']);
+        UserViewModel::removeRoleFromUsersWithRoleId($role['id']);
     }
 
 
