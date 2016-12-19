@@ -28,7 +28,7 @@ function initYoutubeAutoComplete(selector) {
 
         if (fieldValue !== '' && ['ArrowDown', 'ArrowUp', 'Enter'].indexOf(e.key) == -1) {
             $.ajax({
-                url: '/track/add/autocomplete',
+                url: '/track/search/autocomplete',
                 type: 'GET',
                 data: {
                     searchTerm : encodeURIComponent(fieldValue)
@@ -41,5 +41,5 @@ function initYoutubeAutoComplete(selector) {
 }
 
 function awesompleteSelectEventFunction(e) {
-    window.location.replace('/track/add?searchTerm=' + e.text);
+    window.location.replace('/track/search?searchTerm=' + e.text);
 }

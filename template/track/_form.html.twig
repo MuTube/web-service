@@ -1,7 +1,7 @@
-<form id="track_registration_form" method="post" action="/track/{% if mode == 'register' %}register{% else %}{{ track.id }}/edit{% endif %}" role="form" enctype="multipart/form-data">
+<form id="track_registration_form" method="post" action="/track/{% if mode == 'add' %}add{% else %}{{ track.id }}/edit{% endif %}" role="form" enctype="multipart/form-data">
     <div class="form-group">
         <div class="image-container">
-            {% if mode == 'register' %}
+            {% if mode == 'add' %}
                 <img src="{{ track.thumbnail_path }}" class="center-block">
             {% else %}
                 <img src="/{{ track.thumbnail_filepath }}" class="center-block">

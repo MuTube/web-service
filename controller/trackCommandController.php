@@ -66,7 +66,7 @@ class TrackCommandController extends CommonCommandController {
         $this->setTemplate('track/edit.html.twig');
     }
 
-    public function add() {
+    public function search() {
         $this->denyAccessWithoutOneOfPermissions(['track_management']);
 
         if(isset($this->params['get']['searchTerm'])) {
@@ -77,10 +77,10 @@ class TrackCommandController extends CommonCommandController {
             $this->data['searchResults'] = $searchResults;
         }
 
-        $this->setTemplate('track/add.html.twig');
+        $this->setTemplate('track/search.html.twig');
     }
 
-    public function addAutocomplete() {
+    public function searchAutocomplete() {
         $this->denyAccessWithoutOneOfPermissions(['track_management']);
 
         if(isset($this->params['get']['searchTerm'])) {
@@ -98,7 +98,7 @@ class TrackCommandController extends CommonCommandController {
         }
     }
 
-    public function register() {
+    public function add() {
         $this->denyAccessWithoutOneOfPermissions(['track_management']);
 
         if(array_key_exists('yid', $this->params['get'])) {
@@ -122,14 +122,14 @@ class TrackCommandController extends CommonCommandController {
             }
             catch(Exception $e) {
                 ExceptionHandler::renderFlashException($e);
-                $this->redirect('track/register?yid='.$this->params['post']['id']);
+                $this->redirect('track/add?yid='.$this->params['post']['id']);
             }
         }
         else {
             $this->redirect('add');
         }
 
-        $this->setTemplate('track/register.html.twig');
+        $this->setTemplate('track/add.html.twig');
     }
 
     public function downloadMP3() {
