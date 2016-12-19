@@ -6,7 +6,8 @@
 home: { url: 'home', command: 'home', method: 'default', loggedIn: 'false' }
 
 # API
-api_home: { url: 'api', command: 'api', method: 'default', loggedIn: 'true' }
+api_doc: { url: 'api/doc', command: 'api', method: 'default', loggedIn: 'true' }
+api_swagger_json: { url: 'api/swagger.json', command: 'api', method: 'swaggerJson', loggedIn: 'true' }
 api_run: { url: 'api/run/:ressource/:action/:id', command: 'api', method: 'run', loggedIn: 'false' }
 
 # LOGIN
