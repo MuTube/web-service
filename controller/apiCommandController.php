@@ -98,7 +98,7 @@ class ApiCommandController extends CommonCommandController {
             $trackId = $existingTrackData['id'];
         }
 
-        return($this->data['baseUrl'] . "/track/downloadMp3/" . $trackId);
+        return($this->data['baseUrl'] . "/track/" . $trackId . "/download-mp3");
     }
 
     /**

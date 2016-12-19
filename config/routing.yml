@@ -44,3 +44,4 @@ track_edit: { url: 'track/:id/edit', command: 'track', method: 'edit', loggedIn:
 track_add: { url: 'track/add', command: 'track', method: 'add', loggedIn: 'true' }
 track_add_autocomplete: { url: 'track/add/autocomplete', command: 'track', method: 'addAutocomplete', loggedIn: 'true' }
 track_register: { url: 'track/register', command: 'track', method: 'register', loggedIn: 'true' }
+track_download_mp3: { url: 'track/:id/download-mp3', command: 'track', method: 'downloadMP3', loggedIn: 'true' }
