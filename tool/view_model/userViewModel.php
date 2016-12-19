@@ -4,11 +4,12 @@ class UserViewModel {
     // GET
 
     public static function getBy($by, $identifier) {
-        if(empty($identifier)) {
-            throw new Exception("No " . $by . " provided");
+        if(($user = DbController::getTable('user')->getBy($by, $identifier)) != null) {
+            return $user;
         }
-
-        return DbController::getTable('user')->getBy($by, $identifier);
+        else {
+            throw new Exception("User for " . $by . " '" . $identifier . "' not found.");
+        }
     }
 
     public static function getList() {
@@ -16,11 +17,21 @@ class UserViewModel {
     }
 
     public static function getByMultipleValues($data) {
-        return DbController::getTable('user')->getByMultipleValues($data);
+        if(($user = DbController::getTable('user')->getByMultipleValues($data)) != null) {
+            return $user;
+        }
+        else {
+            throw new Exception("User for not found for given data");
+        }
     }
 
     public static function getPermissionsBy($by, $identifier) {
-        return DbController::getTable('user')->getPermissionsBy($by, $identifier);
+        if(($permissions = DbController::getTable('user')->getPermissionsBy($by, $identifier)) != null) {
+            return $permissions;
+        }
+        else {
+            throw new Exception("User for " . $by . " '" . $identifier . "' not found.");
+        }
     }
 
     // ADD
@@ -49,7 +60,10 @@ class UserViewModel {
     public static function updateBy($by, $identifier, $data, $image = false) {
         self::validateData($data);
 
-        $user = UserViewModel::getBy($by, $identifier);
+        if(($user = $user = UserViewModel::getBy($by, $identifier)) == null) {
+            throw new Exception("User for " . $by . " '" . $identifier . "' not found.");
+        }
+
         $userTable = DbController::getTable('user');
         $userTable->updateBy($by, $identifier, $data);
 
@@ -63,6 +77,10 @@ class UserViewModel {
     }
 
     public static function updatePasswordBy($by, $identifier, $values) {
+        if(($user = $user = UserViewModel::getBy($by, $identifier)) == null) {
+            throw new Exception("User for " . $by . " '" . $identifier . "' not found.");
+        }
+
         self::validatePasswordReset($values['password'], $values['password_confirmation']);
         DbController::getTable('user')->updatePasswordBy($by, $identifier, $values['password']);
     }
@@ -75,15 +93,12 @@ class UserViewModel {
     // REMOVE
 
     public static function removeBy($by, $identifier) {
-        if(empty($identifier)) {
-            throw new Exception("No " . $by . " provided");
+        if(($user = $user = UserViewModel::getBy($by, $identifier)) == null) {
+            throw new Exception("User for " . $by . " '" . $identifier . "' not found.");
         }
 
-        $userTable = DbController::getTable('user');
-        $userData = $userTable->getBy($by, $identifier);
-
-        FileManager::deleteFile("files/user_image/" . $userData['image_filepath']);
-        $userTable->removeBy($by, $identifier);
+        FileManager::deleteFile("files/user_image/" . $user['image_filepath']);
+        DbController::getTable('user')->removeBy($by, $identifier);
     }
 
     public static function removeRoleFromUsersWithRoleId($roleId) {

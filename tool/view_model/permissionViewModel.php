@@ -4,11 +4,12 @@ class PermissionViewModel {
     // GET
 
     public static function getBy($by, $identifier) {
-        if(empty($identifier)) {
-            throw new Exception("No " . $by . " provided");
+        if(($permission = DbController::getTable('permission')->getBy($by, $identifier)) != null) {
+            return $permission;
         }
-
-        return DbController::getTable('permission')->getBy($by, $identifier);
+        else {
+            throw new Exception("Permission for " . $by . " '" . $identifier . "' not found.");
+        }
     }
 
     public static function getList() {

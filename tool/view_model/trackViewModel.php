@@ -4,11 +4,12 @@ class TrackViewModel {
     // GET
 
     public static function getBy($by, $identifier) {
-        if(empty($identifier)) {
-            throw new Exception("No " . $by . " provided");
+        if(($track = DbController::getTable('track')->getBy($by, $identifier)) != null) {
+            return $track;
         }
-
-        return DbController::getTable('track')->getBy($by, $identifier);
+        else {
+            throw new Exception("Track for " . $by . " '" . $identifier . "' not found.");
+        }
     }
 
     public static function getList() {
@@ -42,15 +43,12 @@ class TrackViewModel {
     // REMOVE
 
     public static function removeBy($by, $identifier) {
-        if(empty($identifier)) {
-            throw new Exception("No " . $by . " provided");
+        if(($track = DbController::getTable('track')->getBy($by, $identifier)) == null) {
+            throw new Exception("Track for " . $by . " '" . $identifier . "' not found.");
         }
 
-        $trackTable = DbController::getTable('track');
-        $trackData = $trackTable->getBy($by, $identifier);
-
-        FileManager::deleteFile($trackData['mp3_filepath']);
-        $trackTable->removeBy($by, $identifier);
+        FileManager::deleteFile($track['mp3_filepath']);
+        DbController::getTable('track')->removeBy($by, $identifier);
     }
 
 
