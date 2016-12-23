@@ -10,15 +10,15 @@
             </div>
             <div class="pusher__item__header">
                 {% if hasAccess({ 0 : 'user_management', 1 : 'user_create' }) %}
-                    <a href="/user/create" class="btn btn-primary btn-lg">Create a user</a>
+                    <a href="/user/create" class="btn btn-primary">Create a user</a>
                 {% endif %}
                 {% if hasAccess({ 0 : 'user_management', 1 : 'user_remove' }) %}
-                    <a href="#" class="btn btn-primary btn-lg remove_selected">Remove selected</a>
+                    <a href="#" class="btn btn-primary remove_selected">Remove selected</a>
                 {% endif %}
             </div>
         </div>
         <div class="table-responsive">
-            <table class="table table-striped" id="user_table">
+            <table class="table table-hover" id="user_table">
                 <thead>
                 <tr>
                     <th>ID</th>

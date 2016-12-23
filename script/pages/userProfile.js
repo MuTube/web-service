@@ -1,7 +1,9 @@
 initUserProfilePage();
 
 function initUserProfilePage() {
-    $('.permissions-view-all').click(function() {
-        $('.block-all-permissions').toggleClass('hidden');
+    console.log("salut");
+    $('#permissions-view-all').click(function() {
+        alert("salut");
+        $('#block-all-permissions').toggleClass('hidden-xs-up');
     });
 }

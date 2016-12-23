@@ -1,9 +1,7 @@
 <footer>
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container-fluid">
-            <p class="navbar-text pull-right">
-                {% if isValidUser %}<a href="#" id="logout">Logout</a> | {% endif %} {{ currentDate }}
-            </p>
-        </div>
+    <nav class="navbar navbar-fixed-bottom navbar-light bg-faded">
+        <span class="navbar-text float-xs-right">
+            {% if isValidUser %}<button class="btn btn-sm btn-outline-info" type="button" id="logout">Logout</button> | {% endif %} {{ currentDate }}
+        </span>
     </nav>
 </footer>

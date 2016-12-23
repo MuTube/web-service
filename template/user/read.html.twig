@@ -3,82 +3,79 @@
 {% block pageTitle %}User Detail{% endblock %}
 
 {% block content %}
-    <div class="container container-page">
+    <div class="container container-form">
         <div class="page-header pusher">
             <div class="pusher__body">
                 <h1>User Detail :</h1>
             </div>
             <div class="pusher__item__header">
                 {% if hasAccess({ 0 : 'user_management', 1 : 'user_list' }) %}
-                    <a href="/user" class="btn btn-primary btn-lg">Back to list</a>
-                {% endif %}
-                {% if hasAccess({ 0 : 'user_management', 1 : 'user_create' }) %}
-                    <a href="/user/create" class="btn btn-primary btn-lg">Create new</a>
+                    <a href="/user" class="btn btn-primary">Back to list</a>
                 {% endif %}
                 {% if hasAccess({ 0 : 'user_management', 1 : 'user_' ~ user.id ~ '_change_password' }) %}
-                    <a href="/user/{{ user.id }}/changePassword" class="btn btn-primary btn-lg">Reset password</a>
+                    <a href="/user/{{ user.id }}/changePassword" class="btn btn-primary">Reset password</a>
                 {% endif %}
                 {% if hasAccess({ 0 : 'user_management', 1 : 'user_edit', 2 : 'user_' ~ user.id ~ '_edit' }) %}
-                    <a href="/user/{{ user.id }}/edit" class="btn btn-primary btn-lg">Edit</a>
+                    <a href="/user/{{ user.id }}/edit" class="btn btn-primary">Edit</a>
                 {% endif %}
             </div>
         </div>
         {% if user.image_filepath %}
-            <div class="row box-sm">
+            <div class="row mrgb mrgt">
                 <div class="col-sm-4">
-                    <p><strong>Image :</strong></p>
+                    <span><strong>Image :</strong></span>
                 </div>
                 <div class="col-sm-8">
-                    <img src="/{{ user.image_filepath }}">
+                    <img src="/{{ user.image_filepath }}" width="80%">
                 </div>
             </div>
         {% endif %}
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>ID :</strong></p>
+                <span><strong>ID :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ user.id }}</p>
+                <span>{{ user.id }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Username :</strong></p>
+                <span><strong>Username :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ user.username }}</p>
+                <span>{{ user.username }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Firstname :</strong></p>
+                <span><strong>Firstname :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ user.firstname | default('-') }}</p>
+                <span>{{ user.firstname | default('-') }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Lastname :</strong></p>
+                <span><strong>Lastname :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ user.lastname | default('-') }}</p>
+                <span>{{ user.lastname | default('-') }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Email :</strong></p>
+                <span><strong>Email :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ user.email | default('-') }}</p>
+                <span>{{ user.email | default('-') }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Role :</strong></p>
+                <span><strong>Role :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ user.role_name | default('no role')}}</p>
+                <span>{{ user.role_name | default('no role')}}</span>
             </div>
         </div>
     </div>

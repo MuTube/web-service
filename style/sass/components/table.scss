@@ -7,10 +7,11 @@
 }
 
 .table#setting_table {
+  margin-bottom: 0;
+
   tbody {
     tr:hover {
       td {
-        background-color: #CCCCCC;
         cursor: pointer;
       }
     }
@@ -25,7 +26,6 @@
   tbody {
     tr:hover {
       td.linked {
-        background-color: #CCCCCC;
         cursor: pointer;
       }
     }
@@ -37,9 +37,4 @@
       }
     }
   }
-}
-
-.table.block-table {
-  max-height: 700px;
-  overflow: scroll;
 }

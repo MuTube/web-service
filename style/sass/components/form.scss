@@ -3,14 +3,11 @@
 /*                  */
 
 form {
-  input[type='text'], input[type="password"], .select2-selection {
-    height:30px;
+  input[type='text'], input[type="password"], input[type="email"] .select2-selection {
+    height: 40px;
     border: 1px solid #aaa;
   }
   .submit {
-    margin-top:20px;
-  }
-  label {
-    font-size:18px;
+    margin-top: 20px;
   }
 }

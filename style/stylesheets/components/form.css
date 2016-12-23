@@ -1,1 +1,1 @@
-form input[type='text'],form input[type="password"],form .select2-selection{height:30px;border:1px solid #aaa}form .submit{margin-top:20px}form label{font-size:18px}
+form input[type='text'],form input[type="password"],form input[type="email"] .select2-selection{height:40px;border:1px solid #aaa}form .submit{margin-top:20px}
