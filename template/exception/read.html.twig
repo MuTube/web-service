@@ -4,17 +4,12 @@
 
 {% block content %}
     <div class="container container-page" id="exception_page">
-        <div class="page-header row">
-            <div class="col-md-1 text-center">
-                <img src="/files/components/error_icon.png" class="error_icon">
+        <div class="page-header pusher">
+            <div class="pusher__body">
+                <h1>{{ title }}</h1>
             </div>
-            <div class="col-md-11 pusher">
-                <div class="pusher__body">
-                    <h1>{{ title }}</h1>
-                </div>
-                <div class="pusher__item__header">
-                    <a href="javascript:history.back()" class="btn btn-lg btn-primary">Go Back</a>
-                </div>
+            <div class="pusher__item__header">
+                <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
             </div>
         </div>
         <div class="row box-sm">

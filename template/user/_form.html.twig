@@ -1,12 +1,15 @@
 <form id="user_form" method="post" role="form" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <div class="text-xs-center box-sm">
+            {% if user.image_filepath %}
+                <img src="/{{ user.image_filepath }}" height="300px">
+            {% endif %}
+        </div>
+    </div>
     <div class="form-group">
         <label for="userImage">Image :</label>
         <input type="file" id="userImage" name="image" class="form-control">
-        {% if userImageName %}
-            <div class="image-container">
-                <img src="/{{ user.image_filepath }}" id="userImage" class="center-block" width="55%">
-            </div>
-        {% endif %}
     </div>
     {% if user.id %}
         <div class="form-group">

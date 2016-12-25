@@ -19,7 +19,7 @@
             <table class="table table-hover" id="track_table">
                 <thead>
                     <tr>
-                        <th>Thumbnail</th>
+                        <th></th>
                         <th>Title</th>
                         <th>Artist</th>
                         <th>Album</th>
@@ -27,7 +27,7 @@
                         <th>Views</th>
                         <th>Duration</th>
                         {% if tracks | length >= 1 %}
-                            <th class="text-center"><a href="#" class="btn btn-default checkbox-selector-all">Select all</a></th>
+                            <th class="text-center"><a href="#" class="btn btn-sm btn-outline-info checkbox-selector-all">Select all</a></th>
                         {% endif %}
                     </tr>
                 </thead>
@@ -42,8 +42,8 @@
                             <td class="linked">{{ track.youtube_views | number_format(0, '.', "'") }}</td>
                             <td class="linked">{{ track.duration }}</td>
                             <td class="actionRow" width="1">
-                                <a href="#" class="btn btn-default btn-sm remove track_remove glyphicon glyphicon-trash" data-id="track_{{ track.id }}"></a>
-                                <a href="#" class="btn btn-default btn-sm select track_select checkbox-container" data-id="track_{{ track.id }}"><div class="checkbox-selector"></div></a>
+                                <a class="btn btn-sm remove track_remove" data-id="track_{{ track.id }}"><img src="/files/components/glyphicons-bin.png" height="20px"></a>
+                                <a class="btn btn-sm select track_select" data-id="track_{{ track.id }}"><img class="checkbox-selector" height="15px"></a>
                             </td>
                         </tr>
                     {% else %}
