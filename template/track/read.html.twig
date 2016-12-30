@@ -3,85 +3,85 @@
 {% block pageTitle %}Track Detail{% endblock %}
 
 {% block content %}
-    <div class="container container-page">
+    <div class="container container-form">
         <div class="page-header pusher">
             <div class="pusher__body">
                 <h1>Track Detail :</h1>
             </div>
             <div class="pusher__item__header">
                 {% if hasAccess({ 0 : 'track_management' }) %}
-                    <a href="/track" class="btn btn-primary btn-lg">Back to list</a>
+                    <a href="/track" class="btn btn-primary">Back to list</a>
                 {% endif %}
                 {% if hasAccess({ 0 : 'track_management', }) %}
-                    <a href="/track/{{ track.id }}/edit" class="btn btn-primary btn-lg">Edit</a>
+                    <a href="/track/{{ track.id }}/edit" class="btn btn-primary">Edit</a>
                 {% endif %}
             </div>
         </div>
-        <div class="row box-sm">
+        <div class="row mrgb mrgt">
             <div class="col-sm-4">
-                <p><strong>Thumbnail :</strong></p>
+                <span><strong>Thumbnail :</strong></span>
             </div>
             <div class="col-sm-8">
-                <img src="/{{ track.thumbnail_filepath }}">
+                <img src="/{{ track.thumbnail_filepath }}" width="80%">
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>ID :</strong></p>
+                <span><strong>ID :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ track.id }}</p>
+                <span>{{ track.id }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Title :</strong></p>
+                <span><strong>Title :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ track.title }}</p>
+                <span>{{ track.title }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Artist :</strong></p>
+                <span><strong>Artist :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ track.artist | default('-') }}</p>
+                <span>{{ track.artist | default('-') }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Album  :</strong></p>
+                <span><strong>Album  :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ track.album | default('-') }}</p>
+                <span>{{ track.album | default('-') }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Channel :</strong></p>
+                <span><strong>Channel :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ track.youtube_channel }}</p>
+                <span>{{ track.youtube_channel }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Youtube ID :</strong></p>
+                <span><strong>Youtube ID :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ track.youtube_id }}</p>
+                <span>{{ track.youtube_id }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
-                <p><strong>Views :</strong></p>
+                <span><strong>Views :</strong></span>
             </div>
             <div class="col-sm-8">
-                <p>{{ track.youtube_views | number_format(0, '.', "'") }}</p>
+                <span>{{ track.youtube_views | number_format(0, '.', "'") }}</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mrgbs">
             <div class="col-sm-4">
                 <p><strong>Duration :</strong></p>
             </div>

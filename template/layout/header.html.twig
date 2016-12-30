@@ -1,41 +1,38 @@
 <header>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">{{ siteInfo.name }}</a>
-            </div>
-            {% if isValidUser %}
-                <div class="collapse navbar-collapse" id="navbar-menu">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li {% if activeMenuLink == 'dashboard' or activeMenuLink == '' %}class="active"{% endif %}><a href="/dashboard">Dashboard</a></li>
-                        {% if hasAccess({ 0: 'user_management', 1: 'user_list' }) %}
-                            <li {% if activeMenuLink == 'user' %}class="active"{% endif %}><a href="/user">Users</a></li>
+    <nav class="navbar navbar-fixed-top navbar-light bg-faded">
+        <a class="navbar-brand" href="/"><h3>{{ siteInfo.name | capitalize }}</h3></a>
+        {% if isValidUser %}
+            <ul class="nav navbar-nav">
+                <li class="nav-item mrghs {% if activeMenuLink == 'dashboard' or activeMenuLink == '' %}active{% endif %}">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                {% if hasAccess({ 0: 'user_management', 1: 'user_list' }) %}
+                    <li class="nav-item mrghs {% if activeMenuLink == 'user' %}active{% endif %}">
+                        <a class="nav-link" href="/user">Users</a>
+                    </li>
+                {% endif %}
+                {% if hasAccess({ 0: 'track_management' }) %}
+                    <li class="nav-item mrghs {% if activeMenuLink == 'track' %}active{% endif %}">
+                        <a class="nav-link" href="/track">Tracks</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item mrghs {% if activeMenuLink == 'api' %}active{% endif %}">
+                    <a class="nav-link" href="/api/doc">API Documentation</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav float-xs-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ userData.username }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
+                        {% if hasAccess({ 0: 'settings_management', 1: 'settings_list' }) %}
+                            <a class="dropdown-item" href="/settings">Settings</a>
                         {% endif %}
-                        {% if hasAccess({ 0: 'track_management' }) %}
-                            <li {% if activeMenuLink == 'track' %}class="active"{% endif %}><a href="/track">Tracks</a></li>
-                        {% endif %}
-                        <li {% if activeMenuLink == 'api' or activeMenuLink == '' %}class="active"{% endif %}><a href="/api/doc">API Documentation</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">{{ userData.username }}<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                {% if hasAccess({ 0: 'settings_management', 1: 'settings_list' }) %}
-                                    <li><a href="/settings">Settings</a></li>
-                                    <li role="separator" class="divider"></li>
-                                {% endif %}
-                                <li><a href="/user/profile">My profile</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            {% endif %}
-        </div>
+                        <a class="dropdown-item" href="/user/profile">My profile</a>
+                    </div>
+                </li>
+            </ul>
+        {% endif %}
     </nav>
 </header>

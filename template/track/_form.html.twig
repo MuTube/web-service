@@ -1,10 +1,10 @@
 <form id="track_registration_form" method="post" action="/track/{% if mode == 'add' %}add{% else %}{{ track.id }}/edit{% endif %}" role="form" enctype="multipart/form-data">
     <div class="form-group">
-        <div class="image-container">
+        <div class="text-xs-center box-sm">
             {% if mode == 'add' %}
-                <img src="{{ track.thumbnail_path }}" class="center-block">
+                <img src="{{ track.thumbnail_path }}" height="300px">
             {% else %}
-                <img src="/{{ track.thumbnail_filepath }}" class="center-block">
+                <img src="/{{ track.thumbnail_filepath }}" height="300px">
             {% endif %}
         </div>
     </div>
@@ -38,6 +38,6 @@
     </div>
     <div class="form-group submit">
         <input type="hidden" name="id" value="{{ track.id }}">
-        <input type="submit" id="userSubmit" class="btn btn-primary btn-lg pull-right" value="Save">
+        <input type="submit" id="userSubmit" class="btn btn-primary float-xs-right" value="Save">
     </div>
 </form>

@@ -10,10 +10,10 @@
             </div>
             <div class="pusher__item__header">
                 {% if hasAccess({ 0 : 'user_management', 1 : 'user_list'}) %}
-                    <a href="/user" class="btn btn-primary btn-lg">Back to List</a>
+                    <a href="/user" class="btn btn-primary">Back to List</a>
                 {% endif %}
                 {% if hasAccess({ 0 : 'user_management', 1 : 'user_create' }) %}
-                    <a href="/user/create" class="btn btn-primary btn-lg">Create new</a>
+                    <a href="/user/create" class="btn btn-primary">Create new</a>
                 {% endif %}
             </div>
         </div>

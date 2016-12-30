@@ -1,25 +1,16 @@
 /*                  */
-/* MAIN STYLESHEET */
+/* MAIN STYLESHEET  */
 /*                  */
-
-//layout
-@import 'layout/header';
-@import 'layout/footer';
 
 //helpers
 @import 'helpers/pusher';
-@import "helpers/image_container";
+@import "helpers/spacing";
+@import "helpers/font";
 
 //components
-@import 'components/font';
 @import 'components/message';
-@import 'components/panel';
 @import 'components/form';
 @import "components/container";
-@import "components/spacing.scss";
 @import "components/table";
 @import "components/checkbox_selector.scss";
 @import "components/icon";
-
-//pages
-@import 'pages/exception';

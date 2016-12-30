@@ -17,7 +17,9 @@
             }) | raw }}
             <div class="submit">
                 <input type="submit" class="btn btn-primary" value="Save">
-                <a href="/permissions/{{ role.id }}/removeRole" class="role-remove mrghs" data-id="{{ role.id }}"><span class="glyphicon glyphicon-trash"></span></a>
+                <a href="/permissions/{{ role.id }}/removeRole" class="role-remove mrgls" data-id="{{ role.id }}">
+                    <img src="/files/components/glyphicons-bin.png" height="20px">
+                </a>
             </div>
         </form>
     {% endfor %}

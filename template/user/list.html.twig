@@ -10,40 +10,38 @@
             </div>
             <div class="pusher__item__header">
                 {% if hasAccess({ 0 : 'user_management', 1 : 'user_create' }) %}
-                    <a href="/user/create" class="btn btn-primary btn-lg">Create a user</a>
+                    <a href="/user/create" class="btn btn-primary">Create a user</a>
                 {% endif %}
                 {% if hasAccess({ 0 : 'user_management', 1 : 'user_remove' }) %}
-                    <a href="#" class="btn btn-primary btn-lg remove_selected">Remove selected</a>
+                    <a href="#" class="btn btn-primary remove_selected">Remove selected</a>
                 {% endif %}
             </div>
         </div>
         <div class="table-responsive">
-            <table class="table table-striped" id="user_table">
+            <table class="table table-hover" id="user_table">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Username</th>
                     <th>Firstname</th>
                     <th>Lastname</th>
                     <th>Email</th>
                     <th>Role</th>
                     {% if users | length >= 1 %}
-                        <th class="text-center"><a href="#" class="btn btn-default checkbox-selector-all">Select all</a></th>
+                        <th class="text-center"><a href="#" class="btn btn-sm btn-outline-info checkbox-selector-all">Select all</a></th>
                     {% endif %}
                 </tr>
                 </thead>
                 <tbody>
                 {% for user in users %}
                     <tr data-id="{{ user.id }}">
-                        <td class="linked">{{ user.id }}</td>
                         <td class="linked">{{ user.username }}</td>
                         <td class="linked">{{ user.firstname | default('-') }}</td>
                         <td class="linked">{{ user.lastname | default('-') }}</td>
                         <td class="linked">{{ user.email | default('-') }}</td>
                         <td class="linked">{{ user.role_name | default('no role') }}</td>
                         <td class="actionRow" width="1">
-                            <a href="#" class="btn btn-default btn-sm remove user_remove glyphicon glyphicon-trash" data-id="user_{{ user.id }}"></a>
-                            <a href="#" class="btn btn-default btn-sm select user_select checkbox-container" data-id="user_{{ user.id }}"><div class="checkbox-selector"></div></a>
+                            <a class="btn btn-sm remove user_remove" data-id="user_{{ user.id }}"><img src="/files/components/glyphicons-bin.png" height="20px"></a>
+                            <a class="btn btn-sm select user_select" data-id="user_{{ user.id }}"><img class="checkbox-selector" height="15px"></a>
                         </td>
                     </tr>
                 {% else %}

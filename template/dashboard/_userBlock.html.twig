@@ -1,34 +1,31 @@
-<div class="panel panel-default">
-    <div class="panel-heading pusher">
+<div class="card">
+    <div class="card-header pusher">
         <div class="pusher__body">
-            <h2 class="panel-title">Welcome {{ blockData.user.firstname }} {{ blockData.user.lastname }} !</h2>
+            <h2>Welcome {{ blockData.user.firstname }} {{ blockData.user.lastname }} !</h2>
         </div>
         <div class="pusher__item">
-            <a href="/user/profile" class="btn btn-default">My profile</a>
+            <a href="/user/profile" class="btn btn-info">My profile</a>
         </div>
     </div>
-    <div class="panel-body">
+    <div class="card-block">
         {% if blockData.userLocation == '' %}
             <span>Position unknown</span>
         {% else %}
-            <div class="pusher">
-                <div class="pusher__body">
-                    <span>Location : </span><h4 style="display:inline-block" class="">{{ blockData.userLocation }}</h4><br>
-                    {% if blockData.weatherData %}
-                        <span>Temperature : {{ blockData.weatherData.temp }} C°</span><br>
-                        <span>Prevision : {{ blockData.weatherData.tempMin }} C° - {{ blockData.weatherData.tempMax }} C°</span><br>
-                        <span>Humidity : {{ blockData.weatherData.humidity }} %</span><br>
-                        <span>Sunrise : {{ blockData.weatherData.sunrise }}</span><br>
-                        <span>Weather : {{ blockData.weatherData.weather }}</span><br>
-                    </div>
-                    <div class="pusher__item">
-                        <img height="100px" width="100px" src="{{ blockData.weatherData.iconUrl }}">
-                    </div>
-                    {% else %}
+            <span>Location : </span><h4 style="display:inline-block" class="">{{ blockData.userLocation }}</h4><br>
+            {% if blockData.weatherData %}
+                <span>Temperature : {{ blockData.weatherData.temp }} C°</span><br>
+                <span>Prevision : {{ blockData.weatherData.tempMin }} C° - {{ blockData.weatherData.tempMax }} C°</span><br>
+                <span>Humidity : {{ blockData.weatherData.humidity }} %</span><br>
+                <span>Sunrise : {{ blockData.weatherData.sunrise }}</span><br>
+                <span>Weather : {{ blockData.weatherData.weather }}</span><br>
+                </div>
+                <div class="pusher__item">
+                    <img height="100px" width="100px" src="{{ blockData.weatherData.iconUrl }}">
+                </div>
+            {% else %}
                     <span>No weather data provided</span>
                 </div>
-                {% endif %}
-            </div>
+            {% endif %}
         {% endif %}
     </div>
 </div>
