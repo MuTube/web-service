@@ -18,7 +18,7 @@
                 {% endif %}
             </div>
         </div>
-        <div class="container container-form box-lg">
+        <div class="container container-form">
             <form id="youtube_search_form" method="get">
                 <div class="form-group">
                     <label for="search_term">Youtube Search :</label>
@@ -33,18 +33,20 @@
             <div class="table-responsive">
                 <table class="table table-striped" id="youtube_search_table">
                     {% for searchResult in searchResults %}
-                        <tr>
-                            <td class="media">
-                                <img src="{{ searchResult.thumbnailPath }}" class="pull-left" height="110px">
+                        <tr class="media">
+                            <td class="media-body media">
+                                <div class="media-left">
+                                    <img src="{{ searchResult.thumbnailPath }}" height="110px">
+                                </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">{{ searchResult.title }}</h4>
                                     <small class="text-muted">{{ searchResult.publicationDate }}</small><br>
                                     <small class="text-muted">{{ searchResult.channel }}</small>
                                 </div>
                             </td>
-                            <td>
-                                <a href="/track/add?yid={{ searchResult.id }}" class="btn btn-default">
-                                    <span class="glyphicon glyphicon-download-alt"></span>
+                            <td class="media-right align-middle">
+                                <a href="/track/add?yid={{ searchResult.id }}" class="btn btn-outline-info btn-sm mrgrs">
+                                    <img src="/files/components/glyphicons-download-alt.png" height="18px">
                                 </a>
                             </td>
                         </tr>
