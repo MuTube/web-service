@@ -3,11 +3,12 @@
 class TrackViewModel {
     // GET
 
-    public static function getBy($by, $identifier) {
+    public static function getBy($by, $identifier, $returnNullIfNotFound = false) {
         if(($track = DbController::getTable('track')->getBy($by, $identifier)) != null) {
             return $track;
         }
         else {
+            if ($returnNullIfNotFound) return null;
             throw new Exception("Track for " . $by . " '" . $identifier . "' not found.");
         }
     }

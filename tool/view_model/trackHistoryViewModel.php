@@ -3,11 +3,12 @@
 class TrackHistoryViewModel {
     // GET
 
-    public static function getBy($by, $identifier) {
+    public static function getBy($by, $identifier, $returnNullIfNotFound = false) {
         if(($trackHistory = DbController::getTable('trackHistory')->getBy($by, $identifier)) != null) {
             return $trackHistory;
         }
         else {
+            if ($returnNullIfNotFound) return null;
             throw new Exception("Track history for " . $by . " '" . $identifier . "' not found.");
         }
     }

@@ -91,7 +91,7 @@ class ApiCommandController extends CommonCommandController {
             throw new Exception("Invalid youtube id");
         }
 
-        if(($existingTrackData = TrackViewModel::getBy('mp3_filepath', "files/track_files/" . $youtubeId . ".mp3")) == null) {
+        if(($existingTrackData = TrackViewModel::getBy('mp3_filepath', "files/track_files/" . $youtubeId . ".mp3", true)) == null) {
             $trackId = TrackViewModel::addWithYoutubeId($youtubeId);
         }
         else {
@@ -158,13 +158,14 @@ class ApiCommandController extends CommonCommandController {
             throw new Exception("No track data");
         }
 
-        if(($existingTrackHistoryData = TrackHistoryViewModel::getBy('youtube_id', $youtubeId)) == null) {
+        if(($existingTrackHistoryData = TrackHistoryViewModel::getBy('youtube_id', $youtubeId, true)) == null) {
             $trackHistoryId = TrackHistoryViewModel::addWithYoutubeId($youtubeId);
         }
         else {
-            TrackHistoryViewModel::updateBy('youtube_id', $youtubeId, $this->additionalParams);
             $trackHistoryId = $existingTrackHistoryData['id'];
         }
+
+        TrackHistoryViewModel::updateBy('id', $trackHistoryId, $this->additionalParams);
 
         return "Track data with id " . $trackHistoryId . " successfully pushed";
     }
