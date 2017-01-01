@@ -11,6 +11,10 @@ class ConfigHelper {
         return self::filterFullConfigByParamType('database');
     }
 
+    public static function getMP3FileCachingConfig() {
+        return self::filterFullConfigByParamType('MP3FileCaching');
+    }
+
     public static function getOpenWheaterMapConfig() {
         return self::filterFullConfigByParamType('OpenWeatherMap');
     }

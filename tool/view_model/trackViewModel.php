@@ -17,6 +17,14 @@ class TrackViewModel {
         return DbController::getTable('track')->getList();
     }
 
+    public static function getCount() {
+        return DbController::getTable('track')->getCount();
+    }
+
+    public static function getOldest() {
+        return DbController::getTable('track')->getOldest();
+    }
+
 
     // ADD
 
@@ -37,6 +45,12 @@ class TrackViewModel {
         ];
 
         self::validateData($newTrackData);
+
+        if((TrackViewModel::getCount()["COUNT(*)"]) >= ConfigHelper::getMP3FileCachingConfig()['cache_size']) {
+            $oldestTrackId = self::getOldest()['id'];
+            self::removeBy('id', $oldestTrackId);
+        }
+
         return DbController::getTable('track')->create($newTrackData);
     }
 

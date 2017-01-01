@@ -5,8 +5,9 @@ class TrackDbHelper extends CommonDbHelper {
         $this->tableName = 'track';
     }
 
-    public function getByMP3FilePath($mp3FilePath) {
-        return $this->fetch("SELECT * FROM track WHERE mp3_filepath = %s", [DbController::sanitizeQueryInput($mp3FilePath)]);
+    public function getOldest() {
+        $oldestTrackId = $this->fetch("SELECT MIN(id) FROM track", [])['MIN(id)'];
+        return $this->getBy('id', $oldestTrackId);
     }
 
     public function updateTrackHistoryIdById($id, $trackHistoryId) {
