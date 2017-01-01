@@ -25,7 +25,7 @@ class TrackViewModel {
         $mp3DownloadURL = Youtubeinmp3Client::getMP3DownloadURLWithYoutubeID($youtubeId);
         CurlController::downloadFileToDestination($mp3DownloadURL, $newMP3FilePath);
 
-        if(($existingTrackHistoryData = TrackHistoryViewModel::getBy('youtube_id', $youtubeId)) == null) {
+        if(($existingTrackHistoryData = TrackHistoryViewModel::getBy('youtube_id', $youtubeId, true)) == null) {
             $trackHistoryId = TrackHistoryViewModel::addWithYoutubeId($youtubeId);
         }
         else {
