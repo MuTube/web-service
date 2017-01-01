@@ -12,6 +12,10 @@ class CommonDbHelper {
         return $this->fetchAll("SELECT * FROM %s", [$this->tableName]);
     }
 
+    public function getCount() {
+        return $this->fetch("SELECT COUNT(*) FROM %s", [$this->tableName]);
+    }
+
     public function getListForIds($ids) {
         foreach($ids as $index => $id) {
             $ids[$index] = DbController::sanitizeQueryInput($id);

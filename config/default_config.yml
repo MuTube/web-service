@@ -9,6 +9,9 @@ database:
   db_pswd: root
   db_name: mutube
 
+MP3FileCaching:
+  cache_size: 100
+
 OpenWeatherMap:
   api_key: please enter your own api key to use this service
 
