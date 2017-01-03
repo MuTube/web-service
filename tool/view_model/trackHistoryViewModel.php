@@ -38,7 +38,7 @@ class TrackHistoryViewModel {
             'thumbnail_filepath' => $newThumbnailFilePath
         ];
 
-        CurlController::downloadFileToDestination($trackHistoryData['thumbnailPath'], $newThumbnailFilePath);
+        CurlController::downloadFileToDestination($trackHistoryData['thumbnail_path'], $newThumbnailFilePath);
         self::validateData($newTrackHistoryData);
         return DbController::getTable('trackHistory')->create($newTrackHistoryData);
     }
@@ -62,7 +62,7 @@ class TrackHistoryViewModel {
             'thumbnail_filepath' => $newThumbnailFilePath
         ], $customData);
 
-        CurlController::downloadFileToDestination($trackData['thumbnailPath'], $newThumbnailFilePath);
+        CurlController::downloadFileToDestination($trackData['thumbnail_path'], $newThumbnailFilePath);
         self::validateData($newTrackHistoryData);
         DbController::getTable('trackHistory')->create($newTrackHistoryData);
 

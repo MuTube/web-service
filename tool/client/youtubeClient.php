@@ -47,7 +47,7 @@ class YoutubeClient {
                 "id" => $resultItem['id']['videoId'],
                 "title" => $resultItem['snippet']['title'],
                 "channel" => $resultItem['snippet']['channelTitle'],
-                "thumbnailPath" => $resultItem['snippet']['thumbnails']['high']['url'],
+                "thumbnail_path" => $resultItem['snippet']['thumbnails']['high']['url'],
                 "publicationDate" => date_format(date_create($resultItem['snippet']['publishedAt']), 'Y-m-d')
             ];
 
@@ -62,7 +62,7 @@ class YoutubeClient {
             "id" => $result['items'][0]['id'],
             "title" => $result['items'][0]['snippet']['title'],
             "duration" => self::formatYoutubeVideoDuration($result['items'][0]['contentDetails']['duration']),
-            "thumbnailPath" => $result['items'][0]['snippet']['thumbnails']['high']['url'],
+            "thumbnail_path" => $result['items'][0]['snippet']['thumbnails']['high']['url'],
             "youtube_channel" => $result['items'][0]['snippet']['channelTitle'],
             "youtube_views" => $result['items'][0]['statistics']['viewCount']
         ];
