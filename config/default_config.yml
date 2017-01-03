@@ -1,7 +1,7 @@
 siteInformations:
   site_name: mutube
-  site_author: Luca Sardonini
-  site_year: 2016
+  site_author: please enter the author name
+  site_year: please enter the creation year
 
 database:
   db_host: localhost
